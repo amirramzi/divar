@@ -22,5 +22,9 @@ const NavbarHome = dynamic(
 export default function Home() {
   const isLaptop = useIsLaptop();
 
-  return <>{/* <NavbarHome /> */}</>;
+  return (
+    <>
+      <NavbarHome />
+    </>
+  );
 }

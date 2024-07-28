@@ -6,6 +6,7 @@ import { store } from "../store";
 import { SnackbarProvider } from "notistack";
 import AuthProvider from "@/providers/Auth.Provider";
 import { NavbarHome } from "./components/navbar/NavbarHome";
+import NecessaryStateProvider from "@/providers/NecessaryState.provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,11 +16,9 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ReduxProvider store={store}>
           <AuthProvider>
-            <SnackbarProvider maxSnack={1}>
-            
-
-              {children}
-            </SnackbarProvider>
+            <NecessaryStateProvider>
+              <SnackbarProvider maxSnack={1}>{children}</SnackbarProvider>
+            </NecessaryStateProvider>
           </AuthProvider>
         </ReduxProvider>
       </body>

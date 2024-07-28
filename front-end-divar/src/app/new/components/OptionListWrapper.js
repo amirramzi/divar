@@ -3,17 +3,19 @@
 import { Button, List } from "@mui/material";
 import OptionList from "./OptionList";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setCategoryChild1,
   setCategoryChild2,
   setCategoryOption,
 } from "@/store/slice/createPostSlice";
-import MyMap from "./options-form/map/MyMap";
+
 import { useEffect, useState } from "react";
-import callApi from "@/services/callApi";
-import axios from "axios";
-import AutoComplete from "./options-form/AutoComplete";
+
+import MapWrapper from "./options-form/map/MapWrapper";
+import UploadImage from "./options-form/UploadImage";
+import InputOption from "./options-form/InputOption";
+import PostForm from "./PostForm";
 
 const OptionListWrapper = () => {
   const router = useRouter();
@@ -41,17 +43,12 @@ const OptionListWrapper = () => {
   };
 
   return (
-    <div className="w-full max-w-[450px] flex flex-col space-y-2">
+    <div className="w-full max-w-[480px] flex flex-col space-y-2">
       <Button variant="contained" onClick={backHandler}>
         بازگشت به همه دسته ها
       </Button>
       <div className="bg-gray-900 rounded-md overflow-hidden px-10 py-4">
-        <List>
-          <AutoComplete />
-          <MyMap />
-          <OptionList />
-          <Button>click</Button>
-        </List>
+        <PostForm />
       </div>
     </div>
   );

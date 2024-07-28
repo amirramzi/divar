@@ -3,7 +3,17 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { useTheme } from "@mui/material/styles";
 
-export default function InputOption({ label, id }) {
+export default function InputOption({
+  label,
+  id,
+  value,
+  error,
+  touched,
+  handleChange,
+  handleBlur,
+  multiline,
+  rows,
+}) {
   const [isFocused, setIsFocused] = useState(false);
   const theme = useTheme();
 
@@ -12,7 +22,15 @@ export default function InputOption({ label, id }) {
       <label
         htmlFor={id}
         className="transition-colors duration-300"
-        style={{ color: isFocused ? theme.palette.primary.main : "white" }}>
+        style={{
+          color:
+            touched && error
+              ? theme.palette.error.main
+              : isFocused
+              ? theme.palette.primary.main
+              : "white",
+        }}
+      >
         {label}
       </label>
       <TextField
@@ -22,7 +40,15 @@ export default function InputOption({ label, id }) {
         variant="outlined"
         color="primary"
         onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
+        onBlur={(e) => {
+          setIsFocused(false);
+          handleBlur(e);
+        }}
+        onChange={handleChange}
+        value={value || ""}
+        error={touched && Boolean(error)}
+        multiline={multiline || false}
+        rows={rows || 1}
         sx={{
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
@@ -34,12 +60,15 @@ export default function InputOption({ label, id }) {
             "&.Mui-focused fieldset": {
               borderColor: theme.palette.primary.main,
             },
-            "& input": {
-              color: "white",
+            "& input, & textarea": {
+              color: "white !important",
             },
           },
         }}
       />
+      {touched && error && (
+        <div style={{ color: theme.palette.error.main }}>{error}</div>
+      )}
     </div>
   );
 }

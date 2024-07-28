@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const provinceSlice = createSlice({
   name: "province",
-  initialState: { list: [], city: [] },
+  initialState: {
+    list: null,
+    city: [],
+    provinceLng: 51.389,
+    provinceLat: 35.6892,
+  },
 
   reducers: {
     setProvince: (state, action) => {
@@ -29,6 +34,12 @@ export const provinceSlice = createSlice({
         checked: false,
       }));
     },
+    setProvinceLng: (state, action) => {
+      state.provinceLng = action.payload;
+    },
+    setProvinceLat: (state, action) => {
+      state.provinceLat = action.payload;
+    },
   },
 });
 export const {
@@ -37,5 +48,7 @@ export const {
   toggleCheckbox,
   enableAllCheckboxes,
   clearAllCheckboxes,
+  setProvinceLng,
+  setProvinceLat,
 } = provinceSlice.actions;
 export default provinceSlice.reducer;

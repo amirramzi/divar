@@ -1,31 +1,56 @@
 "use client";
-import { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useTheme } from "@mui/material/styles";
-import classes from "./SelectOption.module.css";
-export default function SelectOption({ label, id, enumList }) {
-  const [value, setValue] = useState("");
+import { useState } from "react";
+
+export default function SelectOption({
+  label,
+  id,
+  enumList,
+  value,
+  error,
+  touched,
+  handleChange,
+  handleBlur,
+  setFieldTouched,
+}) {
+  const [isFocused, setIsFocused] = useState(false);
   const theme = useTheme();
 
-  const handleChange = (event) => {
-    setValue(event.target.value);
+  const handleSelectChange = (event) => {
+    handleChange(event);
+    setFieldTouched(id, false, true); // Explicitly set the field as touched
   };
 
   return (
-    <div className={`flex flex-col space-y-2 ${classes.div}`}>
-      <label htmlFor={id} className="transition-colors duration-300">
+    <div className="flex flex-col space-y-2">
+      <label
+        htmlFor={id}
+        className="transition-colors duration-300"
+        style={{
+          color:
+            touched && error
+              ? theme.palette.error.main
+              : isFocused
+              ? theme.palette.primary.main
+              : "white",
+        }}
+      >
         {label}
       </label>
       <Select
-        className={`${classes.div}`}
-        placeholder="انتخاب کنید"
         size="small"
-      
         labelId={id}
         id={id + "-item"}
-        value={value}
-        onChange={handleChange}
+        name={id} // Add the name attribute
+        value={value || ""}
+        onChange={handleSelectChange}
+        onFocus={() => setIsFocused(true)}
+        onBlur={(e) => {
+          setIsFocused(false);
+          handleBlur(e);
+        }}
         inputProps={{
           style: {
             color: "white",
@@ -33,7 +58,7 @@ export default function SelectOption({ label, id, enumList }) {
         }}
         sx={{
           "& .MuiOutlinedInput-notchedOutline": {
-            borderColor: "white",
+            borderColor: touched && error ? theme.palette.error.main : "white",
           },
           "&:hover .MuiOutlinedInput-notchedOutline": {
             borderColor: "white",
@@ -42,7 +67,7 @@ export default function SelectOption({ label, id, enumList }) {
             borderColor: theme.palette.primary.main,
           },
           "& .MuiSelect-select": {
-            color: "white",
+            color: "white !important", // Ensure the value color is white
             display: "flex",
             justifyContent: "flex-start",
           },
@@ -51,13 +76,17 @@ export default function SelectOption({ label, id, enumList }) {
             position: "absolute",
             left: 0,
           },
-        }}>
+        }}
+      >
         {enumList.map((item, index) => (
           <MenuItem key={index} value={item}>
             {item}
           </MenuItem>
         ))}
       </Select>
+      {touched && error && (
+        <div style={{ color: theme.palette.error.main }}>{error}</div>
+      )}
     </div>
   );
 }

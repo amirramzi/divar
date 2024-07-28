@@ -43,7 +43,6 @@ class AuthController {
   async checkAuth(req, res, next) {
     try {
       const token = req.cookies.name;
-      console.log(token);
       if (token) {
         return res.status(200).json({ isAuth: true });
       }

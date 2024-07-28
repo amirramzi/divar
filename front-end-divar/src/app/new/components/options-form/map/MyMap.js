@@ -1,7 +1,7 @@
 "use client";
 
 import React, { memo, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "@neshan-maps-platform/mapbox-gl/dist/NeshanMapboxGl.css";
 import nmp_mapboxgl from "@neshan-maps-platform/mapbox-gl";
 
@@ -13,13 +13,13 @@ const MyMap = () => {
     lng: 51.391173,
     lat: 35.700954,
   });
-  const [zoom, setZoom] = useState(11);
+  const [zoom, setZoom] = useState(9);
   const [saveAddress, setSaveAddress] = useState(false);
   const [cancelAddress, setCancelAddress] = useState(false);
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const markerRef = useRef(null);
-  const dispatch = useDispatch();
+  const { provinceLng, provinceLat } = useSelector((state) => state.province);
 
   useEffect(() => {
     // Initialize the map only once
@@ -28,7 +28,7 @@ const MyMap = () => {
       container: mapContainerRef.current,
       zoom: zoom,
       pitch: 0,
-      center: [51.389, 35.6892],
+      center: [provinceLng, provinceLat],
       minZoom: 2,
       maxZoom: 21,
       trackResize: true,
@@ -74,7 +74,7 @@ const MyMap = () => {
       markerRef.current.remove();
       mapRef.current.remove();
     };
-  }, [cancelAddress]);
+  }, [cancelAddress, provinceLng, provinceLat]);
 
   useEffect(() => {
     // Update marker position when markerPosition state changes

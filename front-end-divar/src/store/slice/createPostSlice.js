@@ -9,7 +9,7 @@ const initialState = {
   lng: null,
   lat: null,
   address: {
-    state: null,
+    province: "null",
     city: null,
     formatted_address: null,
     neighbourhood: null,

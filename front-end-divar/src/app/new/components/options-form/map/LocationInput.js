@@ -22,7 +22,7 @@ export default function LocationInput({
     // );
     // dispatch(
     //   setAddress({
-    //     state: newAddress.state,
+    //     province: newAddress.state,
     //     city: newAddress.city,
     //     formatted_address: newAddress.formatted_address,
     //     neighbourhood: newAddress.neighbourhood,

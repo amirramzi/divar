@@ -27,14 +27,15 @@ export default function NewPostLayout({ children }) {
         }
       } catch (error) {
         dispatch(clearUser());
-        if (error) {
-          router.push("/");
-          dispatch(openLoginModal());
-        }
+        router.push("/");
+        dispatch(openLoginModal());
+      } finally {
+        dispatch(setLoading(false));
       }
     };
     getUser();
-  }, []);
+  }, [dispatch, router]);
+
   useEffect(() => {
     const createPostCategory = async () => {
       try {
@@ -42,21 +43,18 @@ export default function NewPostLayout({ children }) {
         dispatch(setCategoryParent(result?.data?.categories));
       } catch (error) {
         console.log(error);
-      } finally {
-        dispatch(setLoading(false));
       }
     };
     createPostCategory();
-    
-  }, []);
+  }, [dispatch]);
+
   return (
     <div className={inter.className}>
       {loading ? (
         <div className="w-screen h-screen text-center">Loading...</div>
       ) : (
-        ""
+        user && <div>{children}</div>
       )}
-      {user && !loading ? <div> {children} </div> : ""}
     </div>
   );
 }

@@ -1,10 +1,9 @@
 "use client";
-
 import { useSelector } from "react-redux";
 import InputOption from "./options-form/InputOption";
 import SelectOption from "./options-form/SelectOption";
 
-const OptionList = () => {
+const OptionList = ({ formik }) => {
   const options = useSelector((state) => state.createPost.option);
 
   return (
@@ -14,7 +13,16 @@ const OptionList = () => {
           case "number":
           case "string":
             return (
-              <InputOption key={item._id} label={item.title} id={item.key} />
+              <InputOption
+                key={item._id}
+                label={item.title}
+                id={item.key}
+                value={formik.values[item.key]}
+                error={formik.errors[item.key]}
+                touched={formik.touched[item.key]}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+              />
             );
           case "array":
             return (
@@ -23,6 +31,12 @@ const OptionList = () => {
                 label={item.title}
                 id={item.key}
                 enumList={item.enum}
+                value={formik.values[item.key]}
+                error={formik.errors[item.key]}
+                touched={formik.touched[item.key]}
+                handleChange={formik.handleChange}
+                handleBlur={formik.handleBlur}
+                setFieldTouched={formik.setFieldTouched}
               />
             );
           default:
