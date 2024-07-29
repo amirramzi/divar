@@ -2,6 +2,7 @@
 import { useSelector } from "react-redux";
 import InputOption from "./options-form/InputOption";
 import SelectOption from "./options-form/SelectOption";
+import { memo } from "react";
 
 const OptionList = ({ formik }) => {
   const options = useSelector((state) => state.createPost.option);
@@ -9,19 +10,45 @@ const OptionList = ({ formik }) => {
   return (
     <div className="flex flex-col space-y-6">
       {options?.map((item) => {
+        const value = formik.values.options[item.title];
+        const error = formik.errors.options?.[item.title];
+        const touched = formik.touched.options?.[item.title];
+
         switch (item?.type) {
           case "number":
+            return (
+              <InputOption
+                type={item.type}
+                key={item._id}
+                label={item.title}
+                id={item.title}
+                value={value}
+                error={error}
+                touched={touched}
+                handleChange={(e) =>
+                  formik.setFieldValue(`options.${item.title}`, e.target.value)
+                }
+                handleBlur={() =>
+                  formik.setFieldTouched(`options.${item.title}`, true)
+                }
+              />
+            );
           case "string":
             return (
               <InputOption
+                type={item.type}
                 key={item._id}
                 label={item.title}
-                id={item.key}
-                value={formik.values[item.key]}
-                error={formik.errors[item.key]}
-                touched={formik.touched[item.key]}
-                handleChange={formik.handleChange}
-                handleBlur={formik.handleBlur}
+                id={item.title}
+                value={value}
+                error={error}
+                touched={touched}
+                handleChange={(e) =>
+                  formik.setFieldValue(`options.${item.title}`, e.target.value)
+                }
+                handleBlur={() =>
+                  formik.setFieldTouched(`options.${item.title}`, true)
+                }
               />
             );
           case "array":
@@ -29,13 +56,17 @@ const OptionList = ({ formik }) => {
               <SelectOption
                 key={item._id}
                 label={item.title}
-                id={item.key}
+                id={item.title}
                 enumList={item.enum}
-                value={formik.values[item.key]}
-                error={formik.errors[item.key]}
-                touched={formik.touched[item.key]}
-                handleChange={formik.handleChange}
-                handleBlur={formik.handleBlur}
+                value={value}
+                error={error}
+                touched={touched}
+                handleChange={(e) =>
+                  formik.setFieldValue(`options.${item.title}`, e.target.value)
+                }
+                handleBlur={() =>
+                  formik.setFieldTouched(`options.${item.title}`, true)
+                }
                 setFieldTouched={formik.setFieldTouched}
               />
             );
@@ -47,4 +78,4 @@ const OptionList = ({ formik }) => {
   );
 };
 
-export default OptionList;
+export default memo(OptionList);

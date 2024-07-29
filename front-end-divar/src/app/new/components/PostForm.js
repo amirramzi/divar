@@ -7,9 +7,43 @@ import UploadImage from "./options-form/UploadImage";
 import OptionList from "./OptionList";
 import InputOption from "./options-form/InputOption";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { memo, useMemo } from "react";
+import callApi from "@/services/callApi";
 
-const generateInitialValuesAndSchema = (options, address) => {
+const generateInitialValuesAndSchema = (
+  options,
+  address,
+  lng,
+  lat,
+  categoryPost
+) => {
+  const optionInitialValue = options.reduce((initial, item) => {
+    initial[item.title] = item.defaultValue || null;
+    return initial;
+  }, {});
+
+  const optionValidationSchema = options.reduce((schema, item) => {
+    let validator;
+    switch (item.type) {
+      case "number":
+        validator = yup.number().nullable();
+        break;
+      case "string":
+        validator = yup.string().nullable();
+        break;
+      case "array":
+        validator = yup.string().nullable(); // Assuming array fields are handled as strings
+        break;
+      default:
+        validator = yup.string().nullable();
+    }
+    if (item.required) {
+      validator = validator.required(`وارد کردن ${item.title} الزامی است`);
+    }
+    schema[item.title] = validator;
+    return schema;
+  }, {});
+
   const initialValues = {
     title: "",
     content: "",
@@ -20,18 +54,28 @@ const generateInitialValuesAndSchema = (options, address) => {
       neighbourhood: null,
       route_name: null,
     },
+    lng: lng || null,
+    lat: lat || null,
     images: [],
+    options: optionInitialValue,
+    category: categoryPost,
   };
-
-  const validationSchema = {
+  const FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+  const SUPPORTED_FORMATS = [
+    "image/jpg",
+    "image/jpeg",
+    "image/webp",
+    "image/png",
+  ];
+  const validationSchema = yup.object({
     title: yup
       .string()
-      .min(3, "طول عنوان آگهی نباید کمتر از ۳ حرف باشد")
-      .required(),
+      .min(3, "حداقل باید 3 حرف باشد")
+      .required("عنوان آگهی الزامی است"),
     content: yup
       .string()
-      .min(10, "طول توضیحات آگهی نباید کمتر از ۱۰ حرف باشد.")
-      .required(),
+      .min(10, "حداقل باید 10 حرف باشد")
+      .required("توضیحات آگهی الزامی است"),
     address: yup
       .object()
       .shape({
@@ -48,58 +92,84 @@ const generateInitialValuesAndSchema = (options, address) => {
           value &&
           Object.values(value).some((val) => val !== null && val !== "")
       ),
-    images: yup.array(),
-  };
-
-  options.forEach((item) => {
-    initialValues[item.key] = "";
-    validationSchema[item.key] = yup
-      .string()
-      .required(`وارد کردن ${item.title} الزامی است`);
+    options: yup.object().shape(optionValidationSchema),
+    images: yup
+      .array()
+      .max(5, "حداکثر 5 عکس میتوانید بارگذاری کنید")
+      .test("fileSize", "حجم عکس باید کمتر از 10 مگابایت باشد", (files) =>
+        files.every((file) => file.size <= FILE_SIZE)
+      )
+      .test("fileFormat", "Unsupported File Format", (files) =>
+        files.every((file) => SUPPORTED_FORMATS.includes(file.type))
+      ),
   });
 
-  return { initialValues, validationSchema: yup.object(validationSchema) };
+  return { initialValues, validationSchema };
 };
 
 const PostForm = () => {
   const options = useSelector((state) => state.createPost.option);
-  const address = useSelector((state) => state.createPost.address);
-  const [initialValues, setInitialValues] = useState({});
-  const [validationSchema, setValidationSchema] = useState(yup.object({}));
+  const { address, lng, lat } = useSelector((state) => state.addressCreatePost);
+  const categoryPost = useSelector((state) => state.createPost.categoryPost);
 
-  useEffect(() => {
-    const { initialValues, validationSchema } = generateInitialValuesAndSchema(
+  const { initialValues, validationSchema } = useMemo(() => {
+    return generateInitialValuesAndSchema(
       options,
-      address
+      address,
+      lat,
+      lng,
+      categoryPost
     );
-    setInitialValues(initialValues);
-    setValidationSchema(validationSchema);
   }, [options, address]);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     enableReinitialize: true,
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      const formData = new FormData();
+
+      formData.append("title", values.title);
+      formData.append("content", values.content);
+      formData.append("address", JSON.stringify(values.address));
+      formData.append("lng", values.lng);
+      formData.append("lat", values.lat);
+      formData.append("category", values.category);
+      values.images.forEach((image) => {
+        formData.append("images", image);
+      });
+      formData.append("options", JSON.stringify(values.options));
+
+      try {
+        const result = await callApi().post("/post/create", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(values);
+        console.log(result);
+      } catch (error) {
+        console.error("Error creating post:", error);
+      }
     },
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
       <List>
         <MapWrapper
-          value={formik.values.address}
+          addressValue={formik.values.address}
+          lngValue={formik.values.lng}
+          latValue={formik.values.lat}
           error={formik.errors.address}
           touched={formik.touched.address}
-          handleChange={formik.handleChange}
+          handleChange={(value) => formik.setFieldValue("address", value)}
           handleBlur={formik.handleBlur}
         />
         <UploadImage
-          value={formik.values.images}
+          formik={formik}
           error={formik.errors.images}
           touched={formik.touched.images}
-          handleChange={formik.handleChange}
           handleBlur={formik.handleBlur}
         />
         <OptionList formik={formik} />
@@ -138,4 +208,4 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+export default memo(PostForm);

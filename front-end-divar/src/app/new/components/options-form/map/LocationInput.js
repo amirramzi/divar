@@ -1,5 +1,9 @@
 "use client";
-import { setAddress, setLat, setLng } from "@/store/slice/createPostSlice";
+import {
+  setAddress,
+  setLat,
+  setLng,
+} from "@/store/slice/create-post-slice/addressCreatePostSlice";
 import Button from "@mui/material/Button";
 import { useDispatch, useSelector } from "react-redux";
 import FindMyAddress from "./FindMyAddress";
@@ -12,7 +16,7 @@ export default function LocationInput({
   markerPosition,
 }) {
   const dispatch = useDispatch();
-  const address = useSelector((state) => state.createPost.address);
+  const address = useSelector((state) => state.addressCreatePost.address);
   const setAddressHandler = async () => {
     dispatch(setLng(markerPosition.lng));
     dispatch(setLat(markerPosition.lat));

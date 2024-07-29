@@ -13,6 +13,7 @@ export default function InputOption({
   handleBlur,
   multiline,
   rows,
+  type,
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const theme = useTheme();
@@ -34,6 +35,7 @@ export default function InputOption({
         {label}
       </label>
       <TextField
+        type={type}
         size="small"
         placeholder={label}
         id={id}

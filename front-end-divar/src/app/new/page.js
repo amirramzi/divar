@@ -3,20 +3,22 @@
 import { useDispatch, useSelector } from "react-redux";
 import callApi from "@/services/callApi";
 import {
+  clearCategoryPost,
   setCategoryChild1,
   setCategoryChild2,
   setCategoryOption,
-} from "@/store/slice/createPostSlice";
+  setCategoryPost,
+} from "@/store/slice/create-post-slice/createPostSlice";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import CategoryList from "./components/CategoryList";
 
 import iconMapping from "../components/navbar/select-category/categoryIcon";
 import CategoryListWrapper from "./components/CategoryListWrapper";
 import OptionListWrapper from "./components/OptionListWrapper";
 
-export default function NewPost() {
+function NewPost() {
   const [url, setUrl] = useState(null);
   const [btnName, setBtnName] = useState(null);
   const dispatch = useDispatch();
@@ -34,30 +36,34 @@ export default function NewPost() {
     }
   }, []);
 
-  const sendSlugHandler = async (slug, name) => {
+  const sendSlugHandler = async (slug, name, categoryId) => {
     try {
       const result = await callApi().post("/post/new", { slug });
       setUrl(`${path}?slug=${slug}`);
       setBtnName(name);
+      dispatch(setCategoryPost(categoryId));
       dispatch(setCategoryChild1(result.data.categories));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const sendChild1SlugHandler = async (slug) => {
+  const sendChild1SlugHandler = async (slug, categoryId) => {
     try {
       const result = await callApi().post("/post/new", { slug });
+      dispatch(setCategoryPost(categoryId));
       dispatch(setCategoryChild2(result.data.categories));
     } catch (error) {
       console.log(error);
     }
   };
 
-  const sendChild2SlugHandler = async (slug) => {
+  const sendChild2SlugHandler = async (slug, categoryId) => {
     try {
       const result = await callApi().post("/post/new", { slug });
-      console.log(result.data?.options);
+      dispatch(setCategoryPost(categoryId));
+      console.log(categoryId);
+      console.log(categoryChild2);
       dispatch(setCategoryOption(result.data?.options));
     } catch (error) {
       console.log(error);
@@ -66,11 +72,14 @@ export default function NewPost() {
 
   const backParent = () => {
     dispatch(setCategoryChild1(null));
+    dispatch(clearCategoryPost());
     if (typeof window !== "undefined") {
       const currentState = JSON.parse(localStorage.getItem("createPostState"));
       currentState.child1 = null;
       currentState.child2 = null;
       currentState.option = null;
+      currentState.categoryPost = [];
+
       localStorage.setItem("createPostState", JSON.stringify(currentState));
     }
     router.push("/new");
@@ -82,6 +91,7 @@ export default function NewPost() {
       const currentState = JSON.parse(localStorage.getItem("createPostState"));
       currentState.child2 = null;
       currentState.option = null;
+      currentState.categoryPost.pop();
       localStorage.setItem("createPostState", JSON.stringify(currentState));
     }
     router.push(url);
@@ -102,7 +112,9 @@ export default function NewPost() {
                   icon={
                     <Icon strokeWidth={2} className="h-6 w-6 text-blue-800" />
                   }
-                  onClick={() => sendSlugHandler(item?.slug, item?.name)}
+                  onClick={() =>
+                    sendSlugHandler(item?.slug, item?.name, item?._id)
+                  }
                 />
               );
             })}
@@ -114,7 +126,7 @@ export default function NewPost() {
                 key={item._id}
                 name={item.name}
                 href={`?slug=${item.slug}`}
-                onClick={() => sendChild1SlugHandler(item?.slug)}
+                onClick={() => sendChild1SlugHandler(item?.slug, item?._id)}
               />
             ))}
           </CategoryListWrapper>
@@ -125,7 +137,7 @@ export default function NewPost() {
                 key={item._id}
                 name={item.name}
                 href={`?slug=${item.slug}`}
-                onClick={() => sendChild2SlugHandler(item?.slug)}
+                onClick={() => sendChild2SlugHandler(item?.slug, item._id)}
               />
             ))}
           </CategoryListWrapper>
@@ -136,3 +148,4 @@ export default function NewPost() {
     </div>
   );
 }
+export default memo(NewPost);

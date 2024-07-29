@@ -1,10 +1,9 @@
 "use client";
 
 import React, { memo, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import "@neshan-maps-platform/mapbox-gl/dist/NeshanMapboxGl.css";
 import nmp_mapboxgl from "@neshan-maps-platform/mapbox-gl";
-
 import MapButton from "./MapButton";
 import LocationInput from "./LocationInput";
 
@@ -22,7 +21,6 @@ const MyMap = () => {
   const { provinceLng, provinceLat } = useSelector((state) => state.province);
 
   useEffect(() => {
-    // Initialize the map only once
     mapRef.current = new nmp_mapboxgl.Map({
       mapType: nmp_mapboxgl.Map.mapTypes.neshanVector,
       container: mapContainerRef.current,

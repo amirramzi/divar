@@ -53,48 +53,19 @@ class PostController {
   async create(req, res, next) {
     try {
       const userId = req.user._id;
-      const images = req?.files?.map((image) => image?.path?.slice(7));
-      const {
-        title_post: title,
-        description: content,
-        lat,
-        lng,
-        category,
-      } = req.body;
-      const { province, city, district, address } = await getAddressDetail(
-        lat,
-        lng
-      );
-      const options = removePropertyInObject(req.body, [
-        "amount",
-        "title_post",
-        "description",
-        "lat",
-        "lng",
-        "category",
-        "images",
-      ]);
-      for (let key in options) {
-        let value = options[key];
-        delete options[key];
-        key = utf8.decode(key);
-        options[key] = value;
-      }
+      const images = req?.files.map((image) => image?.path?.slice(7));
+      const { title, content, address, lat, lng, category, options } = req.body;
       await this.#service.create({
         userId,
         title,
         content,
-        coordinate: [lat, lng],
-        category: new Types.ObjectId(category),
+        coordinate: [lng, lat],
+        category,
         images,
         options,
-        province,
-        city,
-        district,
         address,
       });
-      this.success_message = PostMessage.Created;
-      return res.redirect("/post/my");
+      res.send({ status: 200, message: PostMessage.Created });
     } catch (error) {
       next(error);
     }

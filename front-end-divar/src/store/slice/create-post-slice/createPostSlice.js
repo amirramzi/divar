@@ -1,20 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loadFromLocalStorage } from "../middleware/saveToLocalStorage";
+import { loadFromLocalStorage } from "../../middleware/saveToLocalStorage";
 
 const initialState = {
   parent: null,
   child1: null,
   child2: null,
   option: null,
-  lng: null,
-  lat: null,
-  address: {
-    province: "null",
-    city: null,
-    formatted_address: null,
-    neighbourhood: null,
-    route_name: null,
-  },
+  categoryPost: [],
 };
 
 const createPostSlice = createSlice({
@@ -42,6 +34,12 @@ const createPostSlice = createSlice({
     setAddress: (state, action) => {
       state.address = action.payload;
     },
+    setCategoryPost: (state, action) => {
+      state.categoryPost.push(action.payload);
+    },
+    clearCategoryPost: (state) => {
+      state.categoryPost = [];
+    },
   },
 });
 
@@ -50,8 +48,7 @@ export const {
   setCategoryChild1,
   setCategoryChild2,
   setCategoryOption,
-  setLng,
-  setLat,
-  setAddress,
+  setCategoryPost,
+  clearCategoryPost,
 } = createPostSlice.actions;
 export default createPostSlice.reducer;

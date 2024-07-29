@@ -6,7 +6,7 @@ import { openLoginModal } from "@/store/slice/loginSlice";
 import { clearUser, setLoading, setUser } from "@/store/slice/authSlice";
 import { useEffect } from "react";
 import callApi from "@/services/callApi";
-import { setCategoryParent } from "@/store/slice/createPostSlice";
+import { setCategoryParent } from "@/store/slice/create-post-slice/createPostSlice";
 
 const inter = Inter({ subsets: ["latin"] });
 

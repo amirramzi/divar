@@ -7,7 +7,9 @@ import SelectProvince from "./SelectProvince";
 const MyMap = dynamic(() => import("./MyMap"), { ssr: false });
 
 const MapWrapper = ({
-  value = "",
+  addressValue = "",
+  lngValue = "",
+  latValue = "",
   error,
   touched,
   handleChange,
@@ -27,26 +29,12 @@ const MapWrapper = ({
         type="hidden"
         id="address"
         name="address"
-        value={value || ""}
+        value={addressValue || ""}
         onChange={handleChange}
         onBlur={handleBlur}
       />
-      {/* <input
-        type="hidden"
-        id="lng"
-        name="lng"
-        value={value || ""}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      />
-      <input
-        type="hidden"
-        id="lat"
-        name="lng"
-        value={value || ""}
-        onChange={handleChange}
-        onBlur={handleBlur}
-      /> */}
+      <input type="hidden" id="lng" name="lng" value={lngValue || ""} />
+      <input type="hidden" id="lat" name="lnt" value={latValue || ""} />
 
       {touched && error && <div className="text-red-600">{error}</div>}
     </>

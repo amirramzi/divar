@@ -19,7 +19,8 @@ export default function SelectOption({
   const theme = useTheme();
 
   const handleSelectChange = (event) => {
-    handleChange(event);
+    handleChange(event); // Formik handleChange
+
     setFieldTouched(id, false, true); // Explicitly set the field as touched
   };
 
@@ -43,13 +44,13 @@ export default function SelectOption({
         size="small"
         labelId={id}
         id={id + "-item"}
-        name={id} // Add the name attribute
+        name={id} // Ensure the name attribute is added
         value={value || ""}
         onChange={handleSelectChange}
         onFocus={() => setIsFocused(true)}
         onBlur={(e) => {
           setIsFocused(false);
-          handleBlur(e);
+          handleBlur(e); 
         }}
         inputProps={{
           style: {
@@ -67,7 +68,7 @@ export default function SelectOption({
             borderColor: theme.palette.primary.main,
           },
           "& .MuiSelect-select": {
-            color: "white !important", // Ensure the value color is white
+            color: "white !important",
             display: "flex",
             justifyContent: "flex-start",
           },

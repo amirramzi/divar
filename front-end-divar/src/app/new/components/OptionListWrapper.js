@@ -1,20 +1,15 @@
 "use client";
 
-import { Button, List } from "@mui/material";
-import OptionList from "./OptionList";
+import { Button } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import {
+  clearCategoryPost,
   setCategoryChild1,
   setCategoryChild2,
   setCategoryOption,
-} from "@/store/slice/createPostSlice";
-
+} from "@/store/slice/create-post-slice/createPostSlice";
 import { useEffect, useState } from "react";
-
-import MapWrapper from "./options-form/map/MapWrapper";
-import UploadImage from "./options-form/UploadImage";
-import InputOption from "./options-form/InputOption";
 import PostForm from "./PostForm";
 
 const OptionListWrapper = () => {
@@ -33,11 +28,17 @@ const OptionListWrapper = () => {
     dispatch(setCategoryChild1(null));
     dispatch(setCategoryChild2(null));
     dispatch(setCategoryOption(null));
+    dispatch(clearCategoryPost());
     if (currentState) {
       currentState.child1 = null;
       currentState.child2 = null;
       currentState.option = null;
-      localStorage.setItem("createPostState", JSON.stringify(currentState));
+      currentState.categoryPost = [];
+      const state = JSON.parse(localStorage.getItem("createPostState"));
+      state.child1 = null;
+      state.child2 = null;
+      state.option = null;
+      state.categoryPost = [];
     }
     router.push("/new");
   };
