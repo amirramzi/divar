@@ -6,6 +6,7 @@ import authReducer from "./slice/authSlice";
 import createPostReducer from "./slice/create-post-slice/createPostSlice";
 import addressCreatePostReducer from "./slice/create-post-slice/addressCreatePostSlice";
 import phoneTimeoutMiddleware from "./middleware/phoneTimeoutMiddleware";
+import usersReducer from "./slice/usersSlice";
 import saveToLocalStorage, {
   loadFromLocalStorage,
 } from "./middleware/saveToLocalStorage";
@@ -20,6 +21,7 @@ export const store = configureStore({
     auth: authReducer,
     createPost: createPostReducer,
     addressCreatePost: addressCreatePostReducer,
+    users: usersReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(phoneTimeoutMiddleware, saveToLocalStorage),

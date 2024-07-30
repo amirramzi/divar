@@ -12,6 +12,7 @@ const UserSchema = new Schema(
     otp: { type: OTOSchema },
     verifiedMobile: { type: Boolean, required: true, default: false },
     accessToken: { type: String },
+    isAdmin: { type: Boolean, required: true, default: false },
   },
   { timestamps: true }
 );

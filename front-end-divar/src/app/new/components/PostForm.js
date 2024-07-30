@@ -146,8 +146,9 @@ const PostForm = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(values);
         console.log(result);
+        if (result.status == 200) {
+        }
       } catch (error) {
         console.error("Error creating post:", error);
       }

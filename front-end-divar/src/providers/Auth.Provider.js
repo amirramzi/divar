@@ -1,7 +1,12 @@
 "use client";
 
 import callApi from "@/services/callApi";
-import { clearUser, setUser, setLoading } from "@/store/slice/authSlice";
+import {
+  clearUser,
+  setUser,
+  setLoading,
+  setIsAdmin,
+} from "@/store/slice/authSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
@@ -9,7 +14,9 @@ export const getUser = async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const result = await callApi().get("/user/whoami");
+
     dispatch(setUser(result.data.mobile));
+    dispatch(setIsAdmin(result.data.isAdmin));
   } catch (error) {
     dispatch(clearUser());
   } finally {

@@ -5,6 +5,7 @@ const UserMessage = Object.freeze({
   OtpCodeExpired: "otp code expired please try again",
   OtpCodeIsIncorrect: "otp code is incorrect",
   LoginSuccessfully: "your login successfully",
+  UpdateSuccessfully: "update user successfully",
 });
 
 module.exports = UserMessage;

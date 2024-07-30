@@ -3,6 +3,7 @@ const AuthorizationMessage = Object.freeze({
   LoginAgain: "please login again ",
   Unauthorized: "Unauthorized please login on your account",
   NotFoundAccount: "not found account",
+  NotFoundAdmin: "your are not a admin",
   InvalidToken: "token is invalid",
 });
 

@@ -21,12 +21,13 @@ export default function MyDivarLayout({ children }) {
       try {
         const result = await callApi().get("/user/whoami");
         dispatch(setUser(result.data.mobile));
+        console.log(result.data.isAdmin);
         if (!result.data.mobile) {
           router.push("/");
           dispatch(openLoginModal());
         }
-        if (result.data.isAdmin) {
-          router.push("/divar-admin/users-list");
+        if (!result.data.isAdmin) {
+          router.push("/my-divar/my-posts");
         }
       } catch (error) {
         dispatch(clearUser());

@@ -98,7 +98,7 @@ export default function Sidebar({ children }) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <div className="flex h-screen ">
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -115,7 +115,7 @@ export default function Sidebar({ children }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            user
+            admin
           </Typography>
         </Toolbar>
       </AppBar>
@@ -134,8 +134,8 @@ export default function Sidebar({ children }) {
       </Drawer>
       <Box component="div" sx={{ flexGrow: 1, p: 3 }} className="bg-black">
         <DrawerHeader />
-        <div className="h-screen">{children}</div>
+        {children}
       </Box>
-    </Box>
+    </div>
   );
 }

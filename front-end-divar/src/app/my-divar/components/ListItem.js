@@ -30,7 +30,7 @@ const ListItem = [
     id: uuidv4(),
     name: "آگهی های من",
     icon: <PostAddOutlinedIcon />,
-    href: "#",
+    href: "/my-divar/my-posts",
     disabled: false,
   },
   {

@@ -62,8 +62,6 @@ function NewPost() {
     try {
       const result = await callApi().post("/post/new", { slug });
       dispatch(setCategoryPost(categoryId));
-      console.log(categoryId);
-      console.log(categoryChild2);
       dispatch(setCategoryOption(result.data?.options));
     } catch (error) {
       console.log(error);
