@@ -6,6 +6,7 @@ const UserMessage = Object.freeze({
   OtpCodeIsIncorrect: "otp code is incorrect",
   LoginSuccessfully: "your login successfully",
   UpdateSuccessfully: "update user successfully",
+  DeleteSuccessfully: "delete user successfully",
 });
 
 module.exports = UserMessage;

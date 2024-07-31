@@ -21,7 +21,6 @@ export default function MyDivarLayout({ children }) {
       try {
         const result = await callApi().get("/user/whoami");
         dispatch(setUser(result.data.mobile));
-        console.log(result.data.isAdmin);
         if (!result.data.mobile) {
           router.push("/");
           dispatch(openLoginModal());

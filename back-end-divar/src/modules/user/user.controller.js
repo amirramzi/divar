@@ -32,10 +32,20 @@ class UserController {
     try {
       const { id } = req.params;
       const { mobile, isAdmin } = req.body;
-      console.log(req.params, req.body);
       await this.#service.updateUser({ id, mobile, isAdmin });
       return res.json({
         message: UserMessage.UpdateSuccessfully,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async deleteUser(req, res, next) {
+    try {
+      const { id } = req.params;
+      await this.#service.deleteUser(id);
+      return res.json({
+        message: UserMessage.DeleteSuccessfully,
       });
     } catch (error) {
       next(error);

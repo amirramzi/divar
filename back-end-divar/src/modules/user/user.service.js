@@ -42,6 +42,10 @@ class UserService {
       }
     );
   }
+  async deleteUser(id) {
+    await this.checkExistUser(id);
+    return await this.#model.deleteOne({ _id: id });
+  }
   async checkExistUser(id) {
     const user = await this.#model.findById(id);
     if (!user) throw new createHttpError.NotFound(UserMessage.NotFound);

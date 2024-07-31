@@ -132,7 +132,7 @@ export default function Table({
   });
 
   return (
-    <div style={{ height: 380, width: "54%" }} dir="ltr">
+    <div className="w-full h-full" dir="ltr">
       <DataGrid
         sx={{
           "& .MuiDataGrid-columnHeaders": {

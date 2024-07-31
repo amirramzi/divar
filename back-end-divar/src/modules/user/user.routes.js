@@ -7,7 +7,7 @@ const router = Router();
 router.get("/whoami", Authorization, userController.whoami);
 router.get("/users", AdminAuthorization, userController.findUsers);
 router.put("/users/:id", AdminAuthorization, userController.updateUser);
-router.delete("/users/:id", AdminAuthorization, userController.findUsers);
+router.delete("/users/:id", AdminAuthorization, userController.deleteUser);
 
 module.exports = {
   UserRouter: router,
