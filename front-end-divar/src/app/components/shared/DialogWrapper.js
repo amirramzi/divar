@@ -17,12 +17,15 @@ const DialogWrapper = ({
   title,
   children,
   actions,
+  maxWidth,
 }) => {
   return (
     <Dialog
+      maxWidth={maxWidth}
       open={open}
       onClose={onClose}
-      PaperProps={{ component: "form", onSubmit: onSubmit }}>
+      PaperProps={{ component: "form", onSubmit: onSubmit }}
+    >
       <DialogTitle className="font-bold flex justify-between">
         <span>{title}</span>
         <IconButton color="error" onClick={onClose}>

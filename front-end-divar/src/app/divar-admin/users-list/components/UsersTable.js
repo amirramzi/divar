@@ -1,6 +1,6 @@
 "use client";
 
-import Table from "@/app/divar-admin/users-list/components/Table";
+import Table from "@/app/components/shared/Table";
 import callApi from "@/services/callApi";
 import { setUsers } from "@/store/slice/usersSlice";
 import { useEffect, useState } from "react";

@@ -14,9 +14,8 @@ export const getUser = async (dispatch) => {
   dispatch(setLoading(true));
   try {
     const result = await callApi().get("/user/whoami");
-
-    dispatch(setUser(result.data.mobile));
     dispatch(setIsAdmin(result.data.isAdmin));
+    dispatch(setUser(result.data.mobile));
   } catch (error) {
     dispatch(clearUser());
   } finally {

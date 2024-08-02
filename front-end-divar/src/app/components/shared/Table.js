@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import { grey } from "@mui/material/colors";
@@ -46,17 +47,19 @@ export default function Table({
   const actionColumn = {
     field: "actions",
     headerName: "Actions",
-    width: 80,
+    width: 90,
     renderCell: (params) => {
       const isInEditMode = params.id === editRowId;
       return isInEditMode ? (
         <>
           <GridActionsCellItem
+            color="success"
             icon={<SaveIcon />}
             label="Save"
             onClick={handleSaveClick(params.id)}
           />
           <GridActionsCellItem
+            color="error"
             icon={<CancelIcon />}
             label="Cancel"
             onClick={handleCancelClick}
@@ -65,11 +68,13 @@ export default function Table({
       ) : (
         <>
           <GridActionsCellItem
+            color="warning"
             icon={<EditIcon />}
             label="Edit"
             onClick={handleEditClick(params.id)}
           />
           <GridActionsCellItem
+            color="error"
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(params.id)}
@@ -104,25 +109,43 @@ export default function Table({
         },
       };
     }
-    if (col.field === "mobile") {
+    if (
+      col.field === "mobile" ||
+      col.field === "name" ||
+      col.field === "slug"
+    ) {
       return {
         ...col,
         renderCell: (params) => {
           const isInEditMode = params.id === editRowId;
           return (
             <TextField
-              value={editRowsModel[params.id]?.mobile?.value ?? params.value}
+              value={
+                editRowsModel[params.id]?.[col.field]?.value ?? params.value
+              }
               onChange={(e) => {
                 const newValue = e.target.value;
                 setEditRowsModel((prev) => ({
                   ...prev,
                   [params.id]: {
                     ...prev[params.id],
-                    mobile: { value: newValue },
+                    [col.field]: { value: newValue },
                   },
                 }));
               }}
+              onKeyDown={(e) => {
+                // Prevent default behavior for the space key if it causes issues
+                if (e.key === " ") {
+                  e.stopPropagation();
+                }
+              }}
               disabled={!isInEditMode}
+              InputProps={{
+                style: {
+                  // Ensure input doesn't affect the cell size
+                  whiteSpace: "nowrap",
+                },
+              }}
             />
           );
         },
@@ -155,7 +178,11 @@ export default function Table({
               backgroundColor: grey[200],
             },
           },
+          "& .MuiDataGrid-cell": {
+            overflow: "hidden", // Prevent overflow issues
+          },
         }}
+        autoHeight
         className="bg-white"
         rows={rows}
         columns={[...editableColumns, actionColumn]}

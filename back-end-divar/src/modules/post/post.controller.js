@@ -25,7 +25,6 @@ class PostController {
       let { slug } = req.body;
 
       let match = { parent: null };
-      let showBack = false;
       let options, category;
       if (slug) {
         slug = slug.trim();
@@ -33,7 +32,6 @@ class PostController {
         if (!category) throw new createHttpError.NotFound(PostMessage.NotFound);
         options = await this.#service.getCategoryOption(category._id);
         if (options.length == 0) options = null;
-        showBack = true;
         match = { parent: category._id };
       }
 
@@ -41,7 +39,6 @@ class PostController {
 
       res.send({
         categories,
-        showBack,
         options,
         category: category?._id.toString(),
       });
