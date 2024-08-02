@@ -101,7 +101,7 @@ function NewPost() {
         !categoryChild1 ? (
           <CategoryListWrapper>
             {categoryParent?.map((item) => {
-              const Icon = iconMapping[item.icon];
+              const Icon = iconMapping[item?.icon || ""];
               return (
                 <CategoryList
                   key={item._id}

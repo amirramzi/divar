@@ -43,20 +43,18 @@ class CategoryService {
 
   async findStepByStep() {
     let match = { parent: null };
-   
 
     const categories = await this.#model.aggregate([{ $match: match }]);
 
     return {
-      
       categories,
     };
   }
 
   async remove(id) {
     await this.checkExistById(id);
-    await this.#model.deleteMany({ category: id }).then(async () => {
-      await this.#optionModel.deleteMany({ _id });
+    await this.#model.deleteMany({ _id: id }).then(async () => {
+      await this.#optionModel.deleteMany({ category: id });
     });
     return true;
   }

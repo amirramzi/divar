@@ -7,6 +7,7 @@ import { clearUser, setLoading, setUser } from "@/store/slice/authSlice";
 import { useEffect } from "react";
 import callApi from "@/services/callApi";
 import Sidebar from "./components/Sidebar";
+import { SnackbarProvider } from "notistack";
 
 const inter = Inter({ subsets: ["latin"] });
 

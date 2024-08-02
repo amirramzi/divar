@@ -16,6 +16,7 @@ const CategoryTableColumns = (handleChildrenClick, handleAddCategoryClick) => {
       resizable: false,
       renderCell: (params) => (
         <IconButton
+          aria-hidden="true"
           color="secondary"
           onClick={() => handleChildrenClick(params)}
         >
@@ -30,6 +31,7 @@ const CategoryTableColumns = (handleChildrenClick, handleAddCategoryClick) => {
       resizable: false,
       renderCell: (params) => (
         <IconButton
+          aria-hidden="true"
           color="success"
           onClick={() => handleAddCategoryClick(params)}
         >

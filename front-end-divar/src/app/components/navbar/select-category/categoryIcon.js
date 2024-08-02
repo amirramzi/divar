@@ -22,6 +22,7 @@ const iconMapping = {
   social: IoPeopleOutline,
   equipment: HiOutlineMicrophone,
   Recruitment: PiBagSimpleLight,
+  
 };
 
 export default iconMapping;

@@ -13,7 +13,7 @@ const validationSchema = yup.object({
   subject: yup
     .string("Enter your password")
     .min(10, "subject should be of minimum 10 characters length")
-    .required("Password is required"),
+    .required("subject is required"),
 });
 const SendSms = () => {
   const [open, setOpen] = useState(false);

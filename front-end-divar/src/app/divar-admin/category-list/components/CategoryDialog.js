@@ -18,11 +18,11 @@ const CategoryDialog = ({
     <DialogWrapper
       open={open}
       onClose={onClose}
-      title="Children Dialog"
+      title={`فرزندهای ${selectedRow?.name}`}
       maxWidth={"xl"}
     >
       {selectedRow ? (
-        <div className="space-y-4 h-[430px] overflow-hidden">
+        <div className="space-y-4 h-fit overflow-hidden">
           {selectedRow?.parents?.length > 0 ? (
             <Button variant="outlined" color="warning" onClick={onBackClick}>
               Back
@@ -30,15 +30,21 @@ const CategoryDialog = ({
           ) : (
             ""
           )}
-          <Table
-            columns={columns}
-            rows={categoryChild}
-            page={0}
-            pageSize={10}
-            getRowId={(row) => row._id}
-            onDelete={onDelete}
-            onSave={onSave}
-          />
+          {categoryChild?.length > 0 ? (
+            <Table
+              columns={columns}
+              rows={categoryChild}
+              page={0}
+              pageSize={10}
+              getRowId={(row) => row._id}
+              onDelete={onDelete}
+              onSave={onSave}
+            />
+          ) : (
+            <div className="p-4">
+              {" " + selectedRow?.name + " "}هیچ فرزندی ندارد
+            </div>
+          )}
         </div>
       ) : (
         "Loading..."
