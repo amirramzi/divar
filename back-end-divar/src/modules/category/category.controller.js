@@ -31,6 +31,14 @@ class CategoryController {
       next(error);
     }
   }
+  async findLastCategory(req, res, next) {
+    try {
+      const categories = await this.#service.findLastCategory();
+      res.send({ categories });
+    } catch (error) {
+      next(error);
+    }
+  }
   async findStepByStep(req, res, next) {
     try {
       let { slug } = req.query;
@@ -49,6 +57,7 @@ class CategoryController {
       next(error);
     }
   }
+
   async remove(req, res, next) {
     try {
       const { id } = req.params;

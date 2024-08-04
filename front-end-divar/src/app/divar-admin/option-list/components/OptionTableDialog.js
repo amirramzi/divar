@@ -1,16 +1,14 @@
 "use client";
 
-import { Button } from "@mui/material";
 import DialogWrapper from "@/app/components/shared/DialogWrapper";
 import Table from "@/app/components/shared/Table";
 
-const CategoryDialog = ({
+const OptionTableDialog = ({
   open,
   onClose,
   selectedRow,
-  categoryChild,
+  options,
   columns,
-  onBackClick,
   onDelete,
   onSave,
 }) => {
@@ -18,32 +16,25 @@ const CategoryDialog = ({
     <DialogWrapper
       open={open}
       onClose={onClose}
-      title={`فرزندهای ${selectedRow?.name}`}
+      title={` آپشن های ${selectedRow?.name}`}
       maxWidth={"xl"}
     >
       {selectedRow ? (
         <div className="space-y-4 h-fit overflow-hidden">
-          {selectedRow?.parents?.length > 0 ? (
-            <Button variant="outlined" color="warning" onClick={onBackClick}>
-              Back
-            </Button>
-          ) : (
-            ""
-          )}
-          {categoryChild?.length > 0 ? (
+          {options?.length > 0 ? (
             <Table
               actionMode={true}
               columns={columns}
-              rows={categoryChild}
+              rows={options}
               page={0}
-              pageSize={10}
+              pageSize={5}
               getRowId={(row) => row._id}
               onDelete={onDelete}
               onSave={onSave}
             />
           ) : (
             <div className="p-4">
-              {" " + selectedRow?.name + " "}هیچ فرزندی ندارد
+              {" " + selectedRow?.name + " "}هیچ آپشنی ندارد
             </div>
           )}
         </div>
@@ -54,4 +45,4 @@ const CategoryDialog = ({
   );
 };
 
-export default CategoryDialog;
+export default OptionTableDialog;

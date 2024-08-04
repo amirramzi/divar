@@ -50,7 +50,7 @@ export default function SelectOption({
         onFocus={() => setIsFocused(true)}
         onBlur={(e) => {
           setIsFocused(false);
-          handleBlur(e); 
+          handleBlur(e);
         }}
         inputProps={{
           style: {
@@ -79,9 +79,9 @@ export default function SelectOption({
           },
         }}
       >
-        {enumList.map((item, index) => (
-          <MenuItem key={index} value={item}>
-            {item}
+        {enumList.map((item) => (
+          <MenuItem key={item.id} value={item.name}>
+            {item.name}
           </MenuItem>
         ))}
       </Select>

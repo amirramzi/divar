@@ -16,7 +16,7 @@ const Details = () => {
     { id: 2, name: "user", count: userCount },
   ];
   return (
-    <div className="flex flex-col gap-8 w-[300px] h-[445px]   ">
+    <div className="flex flex-col gap-8 w-[300px] h-fit   ">
       <h1 className="text-gray-200 font-bold text-4xl">Details </h1>
       <div className="w-full h-full bg-gray-50 rounded-sm overflow-hidden">
         {list.map((item) => (

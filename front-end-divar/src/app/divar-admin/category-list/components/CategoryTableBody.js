@@ -12,6 +12,7 @@ const CategoryTableBody = ({ columns, rows, onDelete, onSave }) => {
       getRowId={(row) => row._id}
       onDelete={onDelete}
       onSave={onSave}
+      actionMode={true}
     />
   );
 };

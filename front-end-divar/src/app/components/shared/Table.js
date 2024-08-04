@@ -18,6 +18,8 @@ export default function Table({
   getRowId,
   onDelete,
   onSave,
+  actionMode,
+  paginationMode,
 }) {
   const [editRowId, setEditRowId] = React.useState(null);
   const [editRowsModel, setEditRowsModel] = React.useState({});
@@ -85,7 +87,7 @@ export default function Table({
   };
 
   const editableColumns = columns.map((col) => {
-    if (col.field === "isAdmin") {
+    if (col.field === "isAdmin" || col.field === "required") {
       return {
         ...col,
         renderCell: (params) => {
@@ -112,7 +114,9 @@ export default function Table({
     if (
       col.field === "mobile" ||
       col.field === "name" ||
-      col.field === "slug"
+      col.field === "slug" ||
+      col.field === "title" ||
+      col.field === "key"
     ) {
       return {
         ...col,
@@ -185,16 +189,20 @@ export default function Table({
         autoHeight
         className="bg-white"
         rows={rows}
-        columns={[...editableColumns, actionColumn]}
+        columns={actionMode ? [...editableColumns, actionColumn] : columns}
         getRowId={getRowId}
-        initialState={{
-          pagination: {
-            paginationModel: { page: page, pageSize: pageSize },
-          },
-        }}
+        initialState={
+          paginationMode
+            ? ""
+            : {
+                pagination: {
+                  paginationModel: { page: page, pageSize: pageSize },
+                },
+              }
+        }
         pageSizeOptions={[5, 10]}
-        editRowsModel={editRowsModel}
-        onEditRowsModelChange={handleEditRowsModelChange}
+        editRowsModel={actionMode ? editRowsModel : ""}
+        onEditRowsModelChange={actionMode ? handleEditRowsModelChange : ""}
       />
     </div>
   );

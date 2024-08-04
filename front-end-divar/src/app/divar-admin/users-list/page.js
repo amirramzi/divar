@@ -8,6 +8,7 @@ export default function UserList() {
     <div className="flex  justify-evenly" dir="ltr">
       <UsersTable />
       <Details />
+      
     </div>
   );
 }

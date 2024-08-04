@@ -23,8 +23,6 @@
  *           type: string
  *         category:
  *           type: string
- *         guid:
- *           type: string
  *         required:
  *           type: boolean
  *         type:
@@ -45,8 +43,6 @@
  *         key:
  *           type: string
  *         category:
- *           type: string
- *         guid:
  *           type: string
  *         required:
  *           type: boolean
@@ -85,7 +81,7 @@
  */
 /**
  * @swagger
- * /Option:
+ * /option:
  *   get:
  *     summary: Get all options
  *     tags:
@@ -96,7 +92,7 @@
  */
 /**
  * @swagger
- * /Option/{id}:
+ * /option/{id}:
  *   get:
  *     summary: Get  option by id
  *     tags:
@@ -113,7 +109,7 @@
  */
 /**
  * @swagger
- * /Option/by-category/{categoryId}:
+ * /option/by-category/{categoryId}:
  *   get:
  *     summary: Get all options of category
  *     tags:
@@ -130,7 +126,7 @@
  */
 /**
  * @swagger
- * /Option/by-category-slug/{slug}:
+ * /option/by-category-slug/{slug}:
  *   get:
  *     summary: Get all options of slug
  *     tags:
@@ -147,7 +143,7 @@
  */
 // /**
 //  * @swagger
-//  * /Option/{id}:
+//  * /option/{id}:
 //  *   delete:
 //  *     summary: delete  option by id
 //  *     tags:

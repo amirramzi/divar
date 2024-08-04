@@ -110,6 +110,7 @@ export default function UsersTable() {
       <div className="flex flex-col gap-8 w-[50%] h-[445px]">
         <h1 className="text-gray-200 font-bold text-4xl">Users List</h1>
         <Table
+          actionMode={true}
           columns={columns}
           rows={users}
           page={0}

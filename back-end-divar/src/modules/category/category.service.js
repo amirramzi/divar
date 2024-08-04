@@ -40,6 +40,23 @@ class CategoryService {
   async find() {
     return await this.#model.find({ parent: { $exists: false } });
   }
+  async findLastCategory() {
+    return await this.#model.aggregate([
+      {
+        $lookup: {
+          from: "categories",
+          localField: "_id",
+          foreignField: "parent",
+          as: "children",
+        },
+      },
+      {
+        $match: {
+          children: { $eq: [] },
+        },
+      },
+    ]);
+  }
 
   async findStepByStep() {
     let match = { parent: null };
@@ -53,9 +70,12 @@ class CategoryService {
 
   async remove(id) {
     await this.checkExistById(id);
-    await this.#model.deleteMany({ _id: id }).then(async () => {
-      await this.#optionModel.deleteMany({ category: id });
-    });
+    const children = await this.#model.find({ parent: id }).select("_id");
+    for (const child of children) {
+      await this.remove(child._id);
+    }
+    await this.#model.deleteOne({ _id: id });
+    await this.#optionModel.deleteMany({ category: id });
     return true;
   }
   async update(id, categoryDto) {

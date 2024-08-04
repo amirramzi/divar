@@ -132,10 +132,12 @@ export default function Sidebar({ children }) {
         <Divider />
         <SidebarItem open={open} />
       </Drawer>
-      <Box component="div" sx={{ flexGrow: 1, p: 3 }} className="bg-black">
-        <DrawerHeader />
-        {children}
-      </Box>
+      <div className="bg-black w-full h-fit min-h-screen">
+        <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
+          <DrawerHeader />
+          {children}
+        </Box>
+      </div>
     </div>
   );
 }

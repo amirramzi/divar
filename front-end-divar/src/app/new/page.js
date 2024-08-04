@@ -76,9 +76,6 @@ function NewPost() {
       currentState.child1 = null;
       currentState.child2 = null;
       currentState.option = null;
-      currentState.categoryPost = [];
-
-      localStorage.setItem("createPostState", JSON.stringify(currentState));
     }
     router.push("/new");
   };
@@ -89,8 +86,6 @@ function NewPost() {
       const currentState = JSON.parse(localStorage.getItem("createPostState"));
       currentState.child2 = null;
       currentState.option = null;
-      currentState.categoryPost.pop();
-      localStorage.setItem("createPostState", JSON.stringify(currentState));
     }
     router.push(url);
   };
