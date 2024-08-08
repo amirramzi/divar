@@ -43,7 +43,7 @@ export default function MyDivarLayout({ children }) {
   }, []);
 
   return (
-    <div className={inter.className}>
+    <div>
       {loading ? (
         <div className="w-screen h-screen text-center">Loading...</div>
       ) : (

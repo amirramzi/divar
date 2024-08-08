@@ -9,6 +9,7 @@ import InputOption from "./options-form/InputOption";
 import { useSelector } from "react-redux";
 import { memo, useMemo } from "react";
 import callApi from "@/services/callApi";
+import { useRouter } from "next/navigation";
 
 const generateInitialValuesAndSchema = (
   options,
@@ -26,7 +27,7 @@ const generateInitialValuesAndSchema = (
     let validator;
     switch (item.type) {
       case "number":
-        validator = yup.number().nullable();
+        validator = yup.string().nullable();
         break;
       case "string":
         validator = yup.string().nullable();
@@ -111,7 +112,7 @@ const PostForm = () => {
   const options = useSelector((state) => state.createPost.option);
   const { address, lng, lat } = useSelector((state) => state.addressCreatePost);
   const categoryPost = useSelector((state) => state.createPost.categoryPost);
-
+  const router = useRouter();
   const { initialValues, validationSchema } = useMemo(() => {
     return generateInitialValuesAndSchema(
       options,
@@ -146,8 +147,9 @@ const PostForm = () => {
             "Content-Type": "multipart/form-data",
           },
         });
-        console.log(result);
+        console.log(values);
         if (result.status == 200) {
+          router.push("/my-divar/my-posts");
         }
       } catch (error) {
         console.error("Error creating post:", error);

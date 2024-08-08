@@ -20,19 +20,19 @@ export default function LocationInput({
   const setAddressHandler = async () => {
     dispatch(setLng(markerPosition.lng));
     dispatch(setLat(markerPosition.lat));
-    // const newAddress = await FindMyAddress(
-    //   markerPosition.lng,
-    //   markerPosition.lat
-    // );
-    // dispatch(
-    //   setAddress({
-    //     province: newAddress.state,
-    //     city: newAddress.city,
-    //     formatted_address: newAddress.formatted_address,
-    //     neighbourhood: newAddress.neighbourhood,
-    //     route_name: newAddress.route_name,
-    //   })
-    // );
+    const newAddress = await FindMyAddress(
+      markerPosition.lng,
+      markerPosition.lat
+    );
+    dispatch(
+      setAddress({
+        province: newAddress.state,
+        city: newAddress.city,
+        formatted_address: newAddress.formatted_address,
+        neighbourhood: newAddress.neighbourhood,
+        route_name: newAddress.route_name,
+      })
+    );
     setSaveAddress(false);
     setCancelAddress(true);
   };

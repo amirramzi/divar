@@ -14,7 +14,11 @@ router.post(
   upload.array("images", 10),
   postController.create
 );
+
+router.get("/all/:situation?", postController.findAllPost);
+
 router.get("/my", Authorization, postController.findMyPosts);
+
 router.delete("/delete/:id", Authorization, postController.remove);
 
 module.exports = {

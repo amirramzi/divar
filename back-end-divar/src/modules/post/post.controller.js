@@ -5,12 +5,6 @@ const PostService = require("./post.service");
 const CategoryModel = require("../category/category.model");
 const createHttpError = require("http-errors");
 const PostMessage = require("./post.message");
-const { Types } = require("mongoose");
-const utf8 = require("utf8");
-const { getAddressDetail } = require("../../common/utils/http");
-const {
-  removePropertyInObject,
-} = require("../../common/utils/remove-property-in-object");
 
 class PostController {
   #service;
@@ -51,6 +45,7 @@ class PostController {
     try {
       const userId = req.user._id;
       const images = req?.files.map((image) => image?.path?.slice(7));
+
       const { title, content, address, lat, lng, category, options } = req.body;
       await this.#service.create({
         userId,
@@ -68,15 +63,25 @@ class PostController {
     }
   }
 
+  async findAllPost(req, res, next) {
+    try {
+      const { situation } = req?.params || "accepted";
+      const posts = await this.#service.findAllPost(situation || "accepted");
+      res.send({
+        posts,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async findMyPosts(req, res, next) {
     try {
       const userId = req.user._id;
-      const posts = await this.#service.find(userId);
-      res.render("./pages/panel/posts.ejs", {
+      const posts = await this.#service.findMyPosts(userId);
+      res.send({
         posts,
-        success_message: this.success_message,
       });
-      this.success_message = null;
     } catch (error) {
       next(error);
     }

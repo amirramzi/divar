@@ -18,6 +18,7 @@ const DialogWrapper = ({
   children,
   actions,
   maxWidth,
+  headerAction,
 }) => {
   return (
     <Dialog
@@ -26,11 +27,15 @@ const DialogWrapper = ({
       onClose={onClose}
       PaperProps={{ component: "form", onSubmit: onSubmit }}
     >
-      <DialogTitle className="font-bold flex justify-between">
+      <DialogTitle className="font-bold flex justify-between ">
         <span>{title}</span>
-        <IconButton color="error" onClick={onClose}>
-          <IoCloseSharp />
-        </IconButton>
+        {headerAction ? (
+          headerAction
+        ) : (
+          <IconButton color="error" onClick={onClose}>
+            <IoCloseSharp />
+          </IconButton>
+        )}
       </DialogTitle>
       <Divider />
       <DialogContent>{children}</DialogContent>

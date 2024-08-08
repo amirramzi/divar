@@ -4,9 +4,9 @@ const initialState = {
   lng: 50.5,
   lat: 50.6,
   address: {
-    province: "null",
+    province: null,
     city: null,
-    formatted_address: "sdsdsd",
+    formatted_address: null,
     neighbourhood: null,
     route_name: null,
   },

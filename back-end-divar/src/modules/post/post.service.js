@@ -18,8 +18,11 @@ class PostService {
   async create(dto) {
     return await this.#model.create(dto);
   }
+  async findAllPost(situation) {
+    return await this.#model.find({ confirm: situation });
+  }
 
-  async find(userId) {
+  async findMyPosts(userId) {
     if (userId && isValidObjectId(userId))
       return await this.#model.find({ userId });
     throw new createHttpError.BadRequest(PostMessage.RequestNotValid);

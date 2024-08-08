@@ -1,6 +1,5 @@
 "use client ";
 import React from "react";
-
 import {
   Typography,
   ListItem,
@@ -8,15 +7,11 @@ import {
   MenuHandler,
 } from "@material-tailwind/react";
 import { IoChevronDown } from "react-icons/io5";
-import dynamic from "next/dynamic";
+import CategoryList from "./CategoryList";
+import { Button } from "@mui/material";
 
-const CategoryList = dynamic(() => import("./CategoryList"), {
-  ssr: false,
-});
-
-function CategoryMenu() {
+const CategoryMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   return (
     <React.Fragment>
@@ -24,35 +19,31 @@ function CategoryMenu() {
         open={isMenuOpen}
         dismiss={{ referencePress: false }}
         handler={setIsMenuOpen}
-        offset={{ mainAxis: 15, crossAxis: 300 }}
+        offset={{ mainAxis: 15, crossAxis: 325 }}
         placement="bottom"
-        allowHover={true}>
+        allowHover={true}
+      >
         <MenuHandler>
-          <Typography as="div" variant="small" className="font-medium">
-            <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900"
-              selected={isMenuOpen || isMobileMenuOpen}
-              onClick={() => setIsMobileMenuOpen((cur) => !cur)}>
-              دسته بندی ها
-              <IoChevronDown
-                strokeWidth={2.5}
-                className={`hidden h-3 w-3 transition-transform lg:block ${
-                  isMenuOpen ? "rotate-180" : ""
-                }`}
-              />
-              <IoChevronDown
-                strokeWidth={2.5}
-                className={`block h-3 w-3 transition-transform lg:hidden ${
-                  isMobileMenuOpen ? "rotate-180" : ""
-                }`}
-              />
-            </ListItem>
-          </Typography>
+          <Button variant="outlined">
+            <span className="!ml-2"> دسته بندی ها</span>
+            <IoChevronDown
+              strokeWidth={2.5}
+              className={`hidden h-3 w-3 transition-transform lg:block ${
+                isMenuOpen ? "rotate-180" : ""
+              }`}
+            />
+            <IoChevronDown
+              strokeWidth={2.5}
+              className={`block h-3 w-3 transition-transform lg:hidden ${
+                isMenuOpen ? "rotate-180" : ""
+              }`}
+            />
+          </Button>
         </MenuHandler>
         <CategoryList />
       </Menu>
     </React.Fragment>
   );
-}
+};
 
 export default CategoryMenu;

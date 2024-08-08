@@ -1,54 +1,37 @@
 "use client";
+import { useDispatch, useSelector } from "react-redux";
+import { Box, Button, List, ListItemButton } from "@mui/material";
 import {
   clearAllCheckboxes,
   enableAllCheckboxes,
   setCity,
-  setProvince,
   toggleCheckbox,
 } from "@/store/slice/provinceSlice";
-import { Button, Card, List, ListItem } from "@material-tailwind/react";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import CityList from "./CityList";
-import { v4 as uuidv4 } from "uuid";
+import callApi from "@/services/callApi";
 
-function ProvinceList({
+const ProvinceList = ({
   selected,
   setSelected,
   isAllEnabled,
   setIsAllEnabled,
-}) {
+}) => {
   const province = useSelector((state) => state.province.list);
   const city = useSelector((state) => state.province.city);
   const dispatch = useDispatch();
 
-  const getProvince = async () => {
-    try {
-      const result = await axios.get("http://localhost:3000/province");
-      dispatch(setProvince(result.data));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const getCity = async (id) => {
     try {
-      const result = await axios.get(`http://localhost:3000/province/${id}`);
-      const cities = result.data.cities.map((name) => ({
-        name,
+      const result = await callApi().get(`/province/cities/${id}`);
+      const cities = result.data.map((item) => ({
+        ...item,
         checked: false,
-        id: uuidv4(),
       }));
       dispatch(setCity(cities));
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    getProvince();
-  }, []);
 
   const setSelectedItem = (value, id) => {
     setSelected([value]);
@@ -74,42 +57,51 @@ function ProvinceList({
     setIsAllEnabled(!isAllEnabled);
   };
   return (
-    <List className="max-h-80 overflow-y-scroll">
-      {selected ? (
-        <>
-          <div className="flex justify-end">
-            <Button
-              variant="outlined"
-              size="sm"
-              color={isAllEnabled ? "green" : "red"}
-              onClick={handleToggleAll}>
-              {isAllEnabled ? "انتخاب همه" : "حذف همه"}
-            </Button>
-          </div>
-          <Card className="shadow-none">
+    <Box
+      sx={{
+        width: 290,
+        height: 400,
+        maxWidth: 360,
+        backgroundColor: "background.paper",
+      }}
+    >
+      <List component="ul" aria-label="secondary mailbox folder">
+        {selected ? (
+          <>
+            <div className="flex justify-end">
+              <Button
+                variant="outlined"
+                size="sm"
+                color={isAllEnabled ? "success" : "error"}
+                onClick={handleToggleAll}
+              >
+                {isAllEnabled ? "انتخاب همه" : "حذف همه"}
+              </Button>
+            </div>
             {city.map((item) => (
               <CityList
-                key={item.id}
+                key={item._id}
                 isChecked={item.checked}
-                onChange={() => handleChange(item.name, item.id, item.checked)}>
-                {item.name}
+                onChange={() => handleChange(item.title, item.id, item.checked)}
+              >
+                {item.title}
               </CityList>
             ))}
-          </Card>
-        </>
-      ) : (
-        province.map((item) => (
-          <ListItem
-            className="my-2"
-            key={uuidv4()}
-            selected={selected === item.province}
-            onClick={() => setSelectedItem(item.province, item._id)}>
-            {item.province}
-          </ListItem>
-        ))
-      )}
-    </List>
+          </>
+        ) : (
+          province?.map((item) => (
+            <ListItemButton
+              key={item._id}
+              selected={selected === item.title}
+              onClick={() => setSelectedItem(item.title, item.id)}
+            >
+              <span className="text-black">{item.title}</span>
+            </ListItemButton>
+          ))
+        )}
+      </List>
+    </Box>
   );
-}
+};
 
 export default ProvinceList;

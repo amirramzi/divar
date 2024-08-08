@@ -10,6 +10,11 @@ const PostSchema = new Schema(
     coordinate: { type: [Number] },
     images: { type: [String], required: false, default: [] },
     options: { type: Object, default: {} },
+    confirm: {
+      type: String,
+      enum: ["pending", "failed", "accepted"],
+      default: "pending",
+    },
   },
   { timestamps: true }
 );

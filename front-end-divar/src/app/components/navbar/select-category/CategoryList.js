@@ -13,10 +13,10 @@ const CategoryList = React.forwardRef((props, ref) => {
 
   return (
     <div className="flex">
-      <MenuList className="w-1/2 h-h-100 rounded-xl lg:grid grid-cols-4 gap-0 hidden">
+      <MenuList className="w-1/2 h-[465px] rounded-xl flex">
         <ul
           ref={ref}
-          className="grid grid-cols-1 gap-y-1 outline-none outline-0"
+          className="flex flex-col space-y-1 w-1/4 outline-none outline-0"
         >
           {category.map((item) => {
             const IconComponent = iconMapping[item.icon];
@@ -77,23 +77,23 @@ const CategoryList = React.forwardRef((props, ref) => {
             );
           })}
         </ul>
-        <div className="grid grid-cols-2 grid-rows-3  col-span-3 gap-0 pr-8 ">
+        <div className="w-1/4 flex flex-col flex-wrap space-x-14   pr-8 ">
           {category.map(
             (item) =>
               activeTab === item._id &&
               item.children.map((child) => (
                 <div
                   key={uuidv4()}
-                  className="transition-opacity duration-300 ease-in-out w-full  "
+                  className="transition-opacity duration-300 ease-in-out w-full "
                 >
-                  <p className="font-bold text-black py-2 hover:text-blue-900">
+                  <p className="font-bold text-xs text-black py-2 hover:text-blue-900">
                     {child.name}
                   </p>
                   <ul className="w-full" key={uuidv4()}>
                     {child?.children.map((child2) => (
                       <li
                         key={uuidv4()}
-                        className="text-gray-700 text-xs font-bold  py-1 pr-6 w-full hover:text-blue-800"
+                        className="text-gray-700 text-xs font-bold  py-1 pr-6 w-full hover:text-blue-800 last:mb-3"
                       >
                         {child2?.name}
                       </li>
