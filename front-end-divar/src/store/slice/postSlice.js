@@ -8,6 +8,7 @@ const allPostSlice = createSlice({
     pendingPost: [],
     failedPost: [],
     myPost: [],
+    singlePost: null,
   },
   reducers: {
     setConfirmedPost: (state, action) => {
@@ -22,10 +23,18 @@ const allPostSlice = createSlice({
     setMyPost: (state, action) => {
       state.myPost = action.payload;
     },
+    setSinglePost: (state, action) => {
+      state.singlePost = action.payload;
+    },
   },
 });
 
-export const { setConfirmedPost, setPendingPost, setFailedPost, setMyPost } =
-  allPostSlice.actions;
+export const {
+  setConfirmedPost,
+  setPendingPost,
+  setFailedPost,
+  setMyPost,
+  setSinglePost,
+} = allPostSlice.actions;
 
 export default allPostSlice.reducer;

@@ -86,6 +86,17 @@ class PostController {
       next(error);
     }
   }
+  async findPostById(req, res, next) {
+    try {
+      const { id } = req.params;
+      const post = await this.#service.findPostById(id);
+      res.send({
+        post,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async remove(req, res, next) {
     try {

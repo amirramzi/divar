@@ -13,8 +13,6 @@ const ConfirmedPost = () => {
     const getConfirmedPost = async () => {
       try {
         const result = await callApi().get("/post/all");
-        console.log(result);
-
         const processedPosts = result.data.posts.map((post) => ({
           ...post,
           address: JSON.parse(post.address),

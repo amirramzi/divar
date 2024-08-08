@@ -27,6 +27,10 @@ class PostService {
       return await this.#model.find({ userId });
     throw new createHttpError.BadRequest(PostMessage.RequestNotValid);
   }
+  async findPostById(id) {
+    await this.checkExist(id);
+    return await this.#model.find({ _id: id });
+  }
   async remove(postId) {
     await this.checkExist(postId);
     await this.#model.deleteOne({ _id: postId });
