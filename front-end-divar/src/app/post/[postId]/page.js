@@ -1,10 +1,20 @@
 "use client";
 import callApi from "@/services/callApi";
+
+import { Container, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
+import PostInformation from "./components/PostInformation";
+import ImageSwiper from "./components/ImageSwiper";
+import dynamic from "next/dynamic";
+
+const PostLocation = dynamic(() => import("./components/PostLocation"), {
+  ssr: false,
+});
 
 const PostPage = ({ params }) => {
   const [post, setPost] = useState([]);
   const [options, setOptions] = useState([]);
+  const [images, setImages] = useState(null);
 
   useEffect(() => {
     const getPost = async () => {
@@ -27,7 +37,6 @@ const PostPage = ({ params }) => {
 
   useEffect(() => {
     if (post.length > 0) {
-      console.log("Post options:", post[0]?.options);
       if (post[0]?.options) {
         const optionsArray = Object.entries(post[0].options).map(
           ([key, value]) => ({
@@ -39,21 +48,24 @@ const PostPage = ({ params }) => {
       } else {
         setOptions([]);
       }
+      if (post[0]?.images) {
+        setImages(post[0]?.images);
+      } else {
+        setImages([]);
+      }
     }
   }, [post]);
 
   return (
-    <div>
-      <div className="whitespace-pre-wrap">{post[0]?.content}</div>
-      <h2>{post[0]?.address?.formatted_address}</h2>
-      {Array.isArray(options) &&
-        options.map((item, index) => (
-          <div key={index} className="flex">
-            <p>{item.key}</p>
-            <p>{item.value}</p>
-          </div>
-        ))}
-    </div>
+    <Container maxWidth="md" className=" p-4">
+      <Stack direction="row" justifyContent="space-between">
+        <PostInformation post={post} options={options} />
+        <div className="w-2/4">
+          <ImageSwiper images={images} alt={post[0]?.title} />
+          <PostLocation lng={post[0]?.lng} lat={post[0]?.lat} />
+        </div>
+      </Stack>
+    </Container>
   );
 };
 

@@ -17,7 +17,7 @@ router.post(
 
 router.get("/all/:situation?", postController.findAllPost);
 router.get("/my", Authorization, postController.findMyPosts);
-router.get("/one/:id", Authorization, postController.findPostById);
+router.get("/one/:id", postController.findPostById);
 
 router.delete("/delete/:id", Authorization, postController.remove);
 
