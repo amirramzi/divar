@@ -8,6 +8,7 @@ import addressCreatePostReducer from "./slice/create-post-slice/addressCreatePos
 import usersReducer from "./slice/usersSlice";
 import categoryAdminReducer from "./slice/CategoryAdminSlice";
 import postReducer from "./slice/postSlice";
+import navigationCategoryReducer from "./slice/navigationCategory";
 import phoneTimeoutMiddleware from "./middleware/phoneTimeoutMiddleware";
 
 import saveToLocalStorage, {
@@ -27,6 +28,7 @@ export const store = configureStore({
     users: usersReducer,
     categoryAdmin: categoryAdminReducer,
     post: postReducer,
+    navigationCategory: navigationCategoryReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(phoneTimeoutMiddleware, saveToLocalStorage),

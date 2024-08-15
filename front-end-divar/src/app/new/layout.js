@@ -7,6 +7,8 @@ import { clearUser, setLoading, setUser } from "@/store/slice/authSlice";
 import { useEffect } from "react";
 import callApi from "@/services/callApi";
 import { setCategoryParent } from "@/store/slice/create-post-slice/createPostSlice";
+import { NavbarHome } from "../components/navbar/NavbarHome";
+import Navigation from "../components/bottom-navigation/Navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,7 +55,12 @@ export default function NewPostLayout({ children }) {
       {loading ? (
         <div className="w-screen h-screen text-center">Loading...</div>
       ) : (
-        user && <div>{children}</div>
+        user && (
+          <>
+            <NavbarHome />
+            {children}
+          </>
+        )
       )}
     </div>
   );

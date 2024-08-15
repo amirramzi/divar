@@ -45,7 +45,7 @@ export default function PostCard({
   const formattedTime = formatTime(time);
   return (
     <Link href={`/post/${id}`}>
-      <Card className="w-[345px] h-[168px] !bg-gray-900 !text-white border border-gray-800">
+      <Card className="w-full lg:w-[345px] h-[168px] !bg-gray-900 !text-white border border-gray-800">
         <CardActionArea>
           <Stack direction="row">
             <CardContent className="flex flex-col ">
