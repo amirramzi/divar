@@ -1,24 +1,69 @@
 "use client";
+
 import { Box, Button, IconButton, Typography } from "@mui/material";
 import TurnedInNotIcon from "@mui/icons-material/TurnedInNot";
 import ShareIcon from "@mui/icons-material/Share";
+import callApi from "@/services/callApi";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { openLoginModal } from "@/store/slice/loginSlice";
+import DialogWrapper from "@/app/components/shared/DialogWrapper";
+
 const PostInformation = ({ post, options }) => {
+  const [showMobileModal, setShowMobileModal] = useState(false);
+  const [mobile, setMobile] = useState(null);
+  const dispatch = useDispatch();
+
+  const showMobile = async () => {
+    try {
+      const result = await callApi().get("/user/whoami");
+      console.log(result.data);
+
+      if (result.status == 200) {
+        setMobile(result?.data.mobile);
+        setShowMobileModal(true);
+      } else {
+        dispatch(openLoginModal());
+      }
+    } catch (error) {
+      dispatch(openLoginModal());
+      console.log(error);
+    }
+  };
+
   return (
-    <div className="w-2/5 divide-y divide-gray-800 space-y-3">
+    <div className=" divide-y divide-gray-800 space-y-3">
+      <DialogWrapper
+        maxWidth="xl"
+        open={showMobileModal}
+        onClose={() => setShowMobileModal(false)}
+        title="شماره تماس آگهی کننده"
+      >
+        <div className="w-96 flex justify-between items-center">
+          <div>شماره تماس : {mobile}</div>
+          <a href={`tel:${mobile}`}>
+            <Button variant="contained" color="primary">
+              تماس
+            </Button>
+          </a>
+        </div>
+      </DialogWrapper>
       <Box>
         <Typography variant="h4" gutterBottom>
           {post[0]?.title}
         </Typography>
         <Typography variant="body2" color="InactiveCaptionText">
-          دقایقی پیش در {post[0]?.address?.city} ,
+          دقایقی پیش در {post[0]?.address?.city} ,{" "}
           {post[0]?.address?.neighbourhood}
         </Typography>
       </Box>
       <div className="pt-3 flex justify-between">
-        <div>
-          <Button variant="contained" size="small" className="ml-2">
-            اطلاعات تماس
-          </Button>
+        <div className="flex justify-center items-center">
+          <div className="ml-4">
+            <Button variant="contained" size="small" onClick={showMobile}>
+              اطلاعات تماس
+            </Button>
+          </div>
           <Button variant="outlined" size="small" color="error">
             چت
           </Button>

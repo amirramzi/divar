@@ -9,9 +9,18 @@ class ProvinceController {
     this.#service = provinceService;
   }
 
+  async finds(req, res, next) {
+    try {
+      const province = await this.#service.finds();
+      return res.json(province);
+    } catch (error) {
+      next(error);
+    }
+  }
   async find(req, res, next) {
     try {
-      const province = await this.#service.find();
+      const { city } = req.body;
+      const province = await this.#service.find(city);
       return res.json(province);
     } catch (error) {
       next(error);

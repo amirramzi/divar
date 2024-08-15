@@ -19,7 +19,8 @@ router.get("/all/:situation?", postController.findAllPost);
 router.get("/my", Authorization, postController.findMyPosts);
 router.get("/one/:id", postController.findPostById);
 
-router.delete("/delete/:id", Authorization, postController.remove);
+router.delete("/:id", Authorization, postController.remove);
+router.put("/:id", Authorization, postController.update);
 
 module.exports = {
   PostRouter: router,

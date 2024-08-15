@@ -21,18 +21,20 @@ export default function NavList() {
   };
 
   return (
-    <div className=" gap-2 lg:flex">
+    <div className="hidden gap-2 lg:flex">
       <AccountMenu />
       <Button
         variant="text"
         size="sm"
-        startIcon={<BiChat className="w-5 h-5 ml-3" />}>
+        startIcon={<BiChat className="w-5 h-5 ml-3" />}
+      >
         <span>چت</span>
       </Button>
       <Button
         variant="text"
         size="sm"
-        startIcon={<BiSupport className="w-5 h-5 ml-3" />}>
+        startIcon={<BiSupport className="w-5 h-5 ml-3" />}
+      >
         <span>پشتیبانی</span>
       </Button>
       <Button variant="contained" size="sm" onClick={addPostHandler}>

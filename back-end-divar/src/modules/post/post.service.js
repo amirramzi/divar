@@ -35,6 +35,10 @@ class PostService {
     await this.checkExist(postId);
     await this.#model.deleteOne({ _id: postId });
   }
+  async update(postId, upPost) {
+    await this.checkExist(postId);
+    await this.#model.updateOne({ _id: postId }, { $set: upPost });
+  }
   async checkExist(postId) {
     if (!postId || !isValidObjectId(postId))
       throw new createHttpError.BadRequest(PostMessage.RequestNotValid);

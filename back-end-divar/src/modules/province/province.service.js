@@ -13,7 +13,10 @@ class ProvinceService {
     this.#model = ProvinceModel;
     this.#citiesModel = CitiesModel;
   }
-  async find() {
+  async find(city) {
+    return await this.#citiesModel.find({ title: city });
+  }
+  async finds() {
     return await this.#model.find();
   }
   async findCities(id) {

@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import PostInformation from "./components/PostInformation";
 import ImageSwiper from "./components/ImageSwiper";
 import dynamic from "next/dynamic";
+import PostAddress from "./components/PostAddress";
+import AdminAction from "./components/AdminAction";
+import { NavbarHome } from "@/app/components/navbar/NavbarHome";
 
 const PostLocation = dynamic(() => import("./components/PostLocation"), {
   ssr: false,
@@ -15,7 +18,6 @@ const PostPage = ({ params }) => {
   const [post, setPost] = useState([]);
   const [options, setOptions] = useState([]);
   const [images, setImages] = useState(null);
-
   useEffect(() => {
     const getPost = async () => {
       try {
@@ -25,8 +27,6 @@ const PostPage = ({ params }) => {
           address: JSON.parse(post.address),
           options: JSON.parse(post.options),
         }));
-        console.log("Processed Post:", processedPost);
-
         setPost(processedPost);
       } catch (error) {
         console.log(error);
@@ -57,15 +57,30 @@ const PostPage = ({ params }) => {
   }, [post]);
 
   return (
-    <Container maxWidth="md" className=" p-4">
-      <Stack direction="row" justifyContent="space-between">
-        <PostInformation post={post} options={options} />
-        <div className="w-2/4">
-          <ImageSwiper images={images} alt={post[0]?.title} />
-          <PostLocation lng={post[0]?.lng} lat={post[0]?.lat} />
+    <>
+      <NavbarHome />
+      <Container maxWidth="md" className="mt-5 p-4">
+        <AdminAction post={post[0]} />
+
+        <div className="flex flex-col lg:flex-row lg:justify-between lg:space-y-0">
+          <div className="hidden lg:block w-full lg:w-2/5">
+            <PostInformation post={post} options={options} />
+          </div>
+          <div className="w-full lg:w-2/4">
+            <ImageSwiper images={images} alt={post[0]?.title} />
+            <div className="block lg:hidden">
+              <PostInformation post={post} options={options} />
+            </div>
+            <PostLocation
+              lng={post[0]?.lng}
+              lat={post[0]?.lat}
+              address={post[0]?.address}
+            />
+            <PostAddress address={post[0]?.address} />
+          </div>
         </div>
-      </Stack>
-    </Container>
+      </Container>
+    </>
   );
 };
 

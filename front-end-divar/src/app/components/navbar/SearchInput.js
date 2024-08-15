@@ -1,11 +1,21 @@
 "use client";
 
-import { Input } from "@material-tailwind/react";
-import { MdSearch } from "react-icons/md";
+import { IconButton, InputAdornment, OutlinedInput } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 export default function SearchInput() {
   return (
-    <div className="w-80 mr-6">
-      <Input icon={<MdSearch />} size="md" />
-    </div>
+    <OutlinedInput
+      id="search"
+      variant="outlined"
+      fullWidth
+      size="small"
+      endAdornment={
+        <InputAdornment position="end">
+          <IconButton aria-label="search icon" edge="end">
+            <SearchIcon color="primary" />
+          </IconButton>
+        </InputAdornment>
+      }
+    />
   );
 }

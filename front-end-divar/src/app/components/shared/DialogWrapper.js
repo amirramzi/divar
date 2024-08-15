@@ -38,7 +38,7 @@ const DialogWrapper = ({
         )}
       </DialogTitle>
       <Divider />
-      <DialogContent>{children}</DialogContent>
+      <DialogContent className="overflow-x-hidden">{children}</DialogContent>
       <Divider />
       <DialogActions>{actions}</DialogActions>
     </Dialog>

@@ -103,9 +103,20 @@ class PostController {
     try {
       const { id } = req.params;
       await this.#service.remove(id);
+      return res.send({ message: PostMessage.Deleted });
+    } catch (error) {
+      next(error);
+    }
+  }
+  async update(req, res, next) {
+    try {
+      const { id } = req.params;
+      const upPost = req.body;
+      console.log(id, upPost);
 
-      this.success_message = PostMessage.Deleted;
-      return res.redirect("/post/my");
+      await this.#service.update(id, upPost);
+
+      return res.send({ message: PostMessage.Updated });
     } catch (error) {
       next(error);
     }

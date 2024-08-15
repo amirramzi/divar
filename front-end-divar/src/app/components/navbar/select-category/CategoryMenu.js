@@ -14,7 +14,7 @@ const CategoryMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
-    <React.Fragment>
+    <div className="hidden lg:block">
       <Menu
         open={isMenuOpen}
         dismiss={{ referencePress: false }}
@@ -42,7 +42,7 @@ const CategoryMenu = () => {
         </MenuHandler>
         <CategoryList />
       </Menu>
-    </React.Fragment>
+    </div>
   );
 };
 
