@@ -33,7 +33,7 @@ const AddCategoryForm = ({ open, setOpen, selectedRow }) => {
     initialValues: {
       name: "",
       slug: "",
-      icon: "",
+      icon: selectedRow?.icon || "",
       parent: selectedRow?._id || null,
     },
     validationSchema: validationSchema,
@@ -61,6 +61,7 @@ const AddCategoryForm = ({ open, setOpen, selectedRow }) => {
 
   useEffect(() => {
     formik.setFieldValue("parent", selectedRow?._id || null);
+    formik.setFieldValue("icon", selectedRow?.icon || "");
   }, [selectedRow]);
 
   const dialogActions = (
@@ -102,17 +103,22 @@ const AddCategoryForm = ({ open, setOpen, selectedRow }) => {
             error={formik.touched.slug && Boolean(formik.errors.slug)}
             helperText={formik.touched.slug && formik.errors.slug}
           />
-          <TextField
-            sx={{ marginTop: 5 }}
-            id="icon"
-            name="icon"
-            label="icon"
-            value={formik.values.icon}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.icon && Boolean(formik.errors.icon)}
-            helperText={formik.touched.icon && formik.errors.icon}
-          />
+          {selectedRow ? (
+            <input value={selectedRow?.icon} readOnly hidden />
+          ) : (
+            <TextField
+              sx={{ marginTop: 5 }}
+              id="icon"
+              name="icon"
+              label="icon"
+              value={formik.values.icon}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.icon && Boolean(formik.errors.icon)}
+              helperText={formik.touched.icon && formik.errors.icon}
+            />
+          )}
+
           {selectedRow && <input value={selectedRow._id} readOnly hidden />}
         </div>
       </DialogWrapper>

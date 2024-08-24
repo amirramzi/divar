@@ -91,7 +91,7 @@ function NewPost() {
   };
 
   return (
-    <div className="w-full h-full text-white flex justify-center pt-10">
+    <div className="w-full h-full text-white flex justify-center py-28">
       {!categoryOption ? (
         !categoryChild1 ? (
           <CategoryListWrapper>

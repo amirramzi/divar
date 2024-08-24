@@ -1,16 +1,13 @@
+"use client";
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Whoami from "../../shared/Whoami";
-
 import ModalLoginForm from "../../form/ModalLoginForm";
 import { VscAccount } from "react-icons/vsc";
-import Logout from "../../shared/Logout";
 import withAuth from "@/hooks/withAuth";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-import Link from "next/link";
 import { useSelector } from "react-redux";
+import AdminMenu from "./AdminMenu";
+import UserMenu from "./UserMenu";
 function AccountMenu() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isAdmin = useSelector((state) => state.auth.isAdmin);
@@ -48,24 +45,18 @@ function AccountMenu() {
           vertical: "top",
           horizontal: "right",
         }}
-        style={{ transform: "translateY(15px)" }} // Adjust the value to increase the distance
+        style={{ transform: "translateY(15px)" }} 
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>
-          <Link
-            href={`${
-              isAdmin ? "/divar-admin/users-list" : "/my-divar/my-posts"
-            }`}
-          >
-            <Whoami icon={<AccountCircleOutlinedIcon />} />
-          </Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Logout />
-        </MenuItem>
+        {isAdmin ? (
+          <AdminMenu handleClose={handleClose} />
+        ) : (
+          <UserMenu handleClose={handleClose} />
+        )}
+
+      
       </Menu>
     </div>
   );

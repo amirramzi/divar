@@ -38,7 +38,7 @@ export default function MyPost() {
       return <Chip label="عدم تایید" color="error" variant="outlined" />;
   };
   return (
-    <div className="w-full h-full ">
+    <div className="w-full h-full overflow-x-auto">
       {myPost?.length == 0 ? (
         <div className="flex justify-center mt-56">
           <Link href="/new">

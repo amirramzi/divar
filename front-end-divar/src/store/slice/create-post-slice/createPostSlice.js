@@ -7,6 +7,7 @@ const initialState = {
   child2: null,
   option: null,
   categoryPost: [],
+  cities: null,
 };
 
 const createPostSlice = createSlice({
@@ -40,6 +41,9 @@ const createPostSlice = createSlice({
     clearCategoryPost: (state) => {
       state.categoryPost = [];
     },
+    setCities: (state, action) => {
+      state.cities = action.payload;
+    },
   },
 });
 
@@ -50,5 +54,6 @@ export const {
   setCategoryOption,
   setCategoryPost,
   clearCategoryPost,
+  setCities,
 } = createPostSlice.actions;
 export default createPostSlice.reducer;

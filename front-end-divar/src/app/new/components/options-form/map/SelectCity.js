@@ -2,11 +2,10 @@
 
 import AutoComplete from "../AutoComplete";
 import { useDispatch, useSelector } from "react-redux";
-import { useState, useEffect } from "react";
 import { setProvinceLat, setProvinceLng } from "@/store/slice/provinceSlice";
 
 const SelectCity = ({ cityValue, setCityValue }) => {
-  const city = useSelector((state) => state.province.city);
+  const city = useSelector((state) => state.createPost.cities);
 
   const dispatch = useDispatch();
 

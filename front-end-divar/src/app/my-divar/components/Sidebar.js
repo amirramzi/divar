@@ -115,7 +115,7 @@ export default function Sidebar({ children }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            admin
+            user
           </Typography>
         </Toolbar>
       </AppBar>
@@ -132,7 +132,7 @@ export default function Sidebar({ children }) {
         <Divider />
         <SidebarItem open={open} />
       </Drawer>
-      <div className="bg-black w-full h-fit min-h-screen">
+      <div className="bg-black w-full  min-h-screen overflow-x-auto">
         <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
           {children}

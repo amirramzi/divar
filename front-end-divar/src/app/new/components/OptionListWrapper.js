@@ -8,14 +8,28 @@ import {
   setCategoryChild1,
   setCategoryChild2,
   setCategoryOption,
+  setCities,
 } from "@/store/slice/create-post-slice/createPostSlice";
 import { useEffect, useState } from "react";
 import PostForm from "./PostForm";
+import callApi from "@/services/callApi";
 
 const OptionListWrapper = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [currentState, setCurrentState] = useState(null);
+
+  useEffect(() => {
+    const getCities = async () => {
+      try {
+        const result = await callApi().get("/province/cities");
+        dispatch(setCities(result.data));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getCities();
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -24,30 +38,10 @@ const OptionListWrapper = () => {
     }
   }, []);
 
-  const backHandler = () => {
-    dispatch(setCategoryChild1(null));
-    dispatch(setCategoryChild2(null));
-    dispatch(setCategoryOption(null));
-    dispatch(clearCategoryPost());
-    if (currentState) {
-      currentState.child1 = null;
-      currentState.child2 = null;
-      currentState.option = null;
-      currentState.categoryPost = [];
-      const state = JSON.parse(localStorage.getItem("createPostState"));
-      state.child1 = null;
-      state.child2 = null;
-      state.option = null;
-      state.categoryPost = [];
-    }
-    router.push("/new");
-  };
+  
 
   return (
     <div className="w-full max-w-[480px] flex flex-col space-y-2">
-      <Button variant="contained" onClick={backHandler}>
-        بازگشت به همه دسته ها
-      </Button>
       <div className="bg-gray-900 rounded-md overflow-hidden px-10 py-4">
         <PostForm />
       </div>

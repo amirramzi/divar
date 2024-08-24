@@ -7,7 +7,8 @@ import { memo } from "react";
 const OptionList = ({ formik }) => {
   const options = useSelector((state) => state.createPost.option);
 
-  const checkPrice = (key) => key === "deposit" || key === "monthly_rent";
+  const checkPrice = (key) =>
+    key === "deposit" || key === "monthly_rent" || key === "price";
 
   return (
     <div className="flex flex-col space-y-6">

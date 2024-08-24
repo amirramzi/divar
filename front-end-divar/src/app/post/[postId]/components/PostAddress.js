@@ -7,7 +7,7 @@ const PostAddress = ({ address }) => {
   return (
     <>
       <div className="text-gray-500 font-bold text-xl">آدرس</div>
-      <div className="pr-2" style={{ wordSpacing: "0.2rem" }}>
+      <div className="pr-2 pb-20" style={{ wordSpacing: "0.2rem" }}>
         {address?.province ? address?.province : ""} شهر{" "}
         {addressArray[0] ? addressArray[0] : ""} خیابان{" "}
         {addressArray[1] ? addressArray[1] : ""} خیابان

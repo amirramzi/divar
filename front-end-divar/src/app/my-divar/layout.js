@@ -48,7 +48,9 @@ export default function MyDivarLayout({ children }) {
       ) : (
         ""
       )}
-      {user && !loading ? <Sidebar>{children}</Sidebar> : ""}
+      <div className=" overflow-y-hidden">
+        {user && !loading ? <Sidebar>{children}</Sidebar> : ""}
+      </div>
     </div>
   );
 }

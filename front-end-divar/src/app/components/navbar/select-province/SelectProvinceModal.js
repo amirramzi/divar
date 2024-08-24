@@ -6,6 +6,7 @@ import DialogWrapper from "../../shared/DialogWrapper";
 import { Button } from "@mui/material";
 import { useState } from "react";
 import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
+import { clearAllCheckboxes } from "@/store/slice/provinceSlice";
 
 const SelectProvinceModal = () => {
   const [open, setOpen] = useState(false);

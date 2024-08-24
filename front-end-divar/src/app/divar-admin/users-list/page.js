@@ -5,10 +5,12 @@ import UsersTable from "./components/UsersTable";
 
 export default function UserList() {
   return (
-    <div className="flex  justify-evenly" dir="ltr">
+    <div
+      className="flex flex-col lg:flex-row justify-evenly "
+      dir="ltr"
+    >
       <UsersTable />
       <Details />
-      
     </div>
   );
 }

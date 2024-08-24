@@ -4,11 +4,11 @@ import AutoComplete from "../AutoComplete";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import {
-  setCity,
   setProvinceLat,
   setProvinceLng,
 } from "@/store/slice/provinceSlice";
 import callApi from "@/services/callApi";
+import { setCities } from "@/store/slice/create-post-slice/createPostSlice";
 
 const SelectProvince = ({ setCityValue }) => {
   const province = useSelector((state) => state.province.list);
@@ -25,7 +25,7 @@ const SelectProvince = ({ setCityValue }) => {
     setValue(newValue);
     if (newValue && newValue.title) {
       const result = await callApi().get(`/province/cities/${newValue.id}`);
-      dispatch(setCity(result.data));
+      dispatch(setCities(result.data));
       setCityValue(null);
       dispatch(setProvinceLng(newValue.longitude));
       dispatch(setProvinceLat(newValue.latitude));

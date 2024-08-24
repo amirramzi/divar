@@ -1,22 +1,18 @@
 "use client";
 
-import { NavbarHome } from "./components/navbar/NavbarHome";
 import { Container } from "@mui/material";
 import PostCol from "./components/shared/post/PostCol";
-import Navigation from "./components/bottom-navigation/Navigation";
-
-
+import SidebarHome from "./components/shared/SidebarHome";
+import NavProvider from "./components/shared/NavProvider";
 export default function Home() {
-
-
   return (
-    <div className="h-screen lg:h-fit overflow-x-hidden">
-      <NavbarHome />
-      <Container maxWidth="xl" className="flex mt-10">
-        <div className="w-1/4 hidden lg:block">dassdas</div>
-        <PostCol />
-      </Container>
-      <Navigation />
+    <div className="h-screen lg:h-fit overflow-x-hidden relative">
+      <NavProvider>
+        <Container maxWidth="xl" className="flex justify-center pt-20">
+          <SidebarHome />
+          <PostCol />
+        </Container>
+      </NavProvider>
     </div>
   );
 }

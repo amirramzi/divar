@@ -107,7 +107,7 @@ export default function UsersTable() {
           آیا از حذف کاربر اطمینان دارید؟
         </div>
       </DialogWrapper>
-      <div className="flex flex-col gap-8 w-[50%] h-[445px]">
+      <div className="flex flex-col gap-8 w-full lg:w-1/2 h-[445px]">
         <h1 className="text-gray-200 font-bold text-4xl">Users List</h1>
         <Table
           actionMode={true}

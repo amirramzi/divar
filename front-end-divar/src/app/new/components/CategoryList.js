@@ -7,7 +7,13 @@ import ListItemText from "@mui/material/ListItemText";
 import Link from "next/link";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-export default function CategoryList({ name, href, onClick, icon }) {
+export default function CategoryList({
+  name,
+  href,
+  onClick,
+  icon,
+  disableArrowIcon,
+}) {
   return (
     <>
       <Link href={href} onClick={onClick}>
@@ -20,9 +26,13 @@ export default function CategoryList({ name, href, onClick, icon }) {
                 textAlign: "right",
               }}
             />
-            <ListItemIcon className="-ml-8">
-              <ArrowBackIosIcon color="primary" />
-            </ListItemIcon>
+            {disableArrowIcon ? (
+              ""
+            ) : (
+              <ListItemIcon className="-ml-8">
+                <ArrowBackIosIcon color="primary" />
+              </ListItemIcon>
+            )}
           </ListItemButton>
         </ListItem>
       </Link>

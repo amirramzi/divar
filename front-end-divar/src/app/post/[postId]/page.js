@@ -1,14 +1,13 @@
 "use client";
 import callApi from "@/services/callApi";
-
-import { Container, Stack } from "@mui/material";
+import { Container } from "@mui/material";
 import { useEffect, useState } from "react";
 import PostInformation from "./components/PostInformation";
 import ImageSwiper from "./components/ImageSwiper";
 import dynamic from "next/dynamic";
 import PostAddress from "./components/PostAddress";
 import AdminAction from "./components/AdminAction";
-import { NavbarHome } from "@/app/components/navbar/NavbarHome";
+import NavProvider from "@/app/components/shared/NavProvider";
 
 const PostLocation = dynamic(() => import("./components/PostLocation"), {
   ssr: false,
@@ -57,9 +56,8 @@ const PostPage = ({ params }) => {
   }, [post]);
 
   return (
-    <>
-      <NavbarHome />
-      <Container maxWidth="md" className="mt-5 p-4">
+    <NavProvider>
+      <Container maxWidth="md" className="mt-5 p-4 pt-20">
         <AdminAction post={post[0]} />
 
         <div className="flex flex-col lg:flex-row lg:justify-between lg:space-y-0">
@@ -80,7 +78,7 @@ const PostPage = ({ params }) => {
           </div>
         </div>
       </Container>
-    </>
+    </NavProvider>
   );
 };
 

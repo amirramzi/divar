@@ -1,7 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import RestoreIcon from "@mui/icons-material/Restore";
-import { BottomNavigationAction } from "@mui/material";
+import { useEffect } from "react";
 import callApi from "@/services/callApi";
 import {
   setFirstCategory,

@@ -13,7 +13,7 @@ const DrawerWrapper = ({ open, closeDrawer, openDrawer, title, children }) => {
       sx={{
         "& .MuiDrawer-paper": {
           width: "100%",
-          height: "70%",
+          height: "65%",
           maxHeight: "100%",
           borderTopRightRadius: "40px",
           borderTopLeftRadius: "40px",
@@ -22,7 +22,7 @@ const DrawerWrapper = ({ open, closeDrawer, openDrawer, title, children }) => {
       }}
     >
       <div className="flex flex-col items-center justify-between">
-        <DragHandleIcon color="primary" sx={{ fontSize: 60, mx: "auto" }} />
+        <DragHandleIcon color="primary" sx={{ fontSize: 50, mx: "auto" }} />
 
         <Typography variant="h5" color="white">
           {title}

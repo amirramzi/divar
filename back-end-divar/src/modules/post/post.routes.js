@@ -5,8 +5,8 @@ const Authorization = require("../../common/guard/authorization.guard");
 
 const router = Router();
 
-router.get("/new", Authorization, postController.createPostPage);
-router.post("/new", Authorization, postController.createPostPage);
+router.get("/new", postController.createPostPage);
+router.post("/new", postController.createPostPage);
 
 router.post(
   "/create",

@@ -19,8 +19,6 @@ const PostCol = () => {
           address: JSON.parse(post.address),
           options: JSON.parse(post.options),
         }));
-        console.log(processedPosts);
-
         dispatch(setConfirmedPost(processedPosts));
       } catch (error) {
         console.error(error);
@@ -30,12 +28,11 @@ const PostCol = () => {
   }, [dispatch]);
 
   return (
-    <div className="w-full flex flex-wrap justify-center space-y-5 lg:space-y-0 lg:w-3/4 lg:gap-5">
+    <div className="w-full flex flex-wrap justify-center space-y-5 lg:space-y-0 lg:w-3/4 lg:gap-3 overflow-x-auto">
       {posts?.map((post) => {
         const imageUrl = `${
           process.env.NEXT_PUBLIC_API_BASE_URL
         }/${post.images[0]?.replace(/\\/g, "/")}`;
-      
 
         return (
           <PostCard
@@ -46,6 +43,7 @@ const PostCol = () => {
             img={imageUrl}
             id={post._id}
             time={post.createdAt}
+            city={post.address.city}
           />
         );
       })}

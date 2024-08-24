@@ -6,10 +6,16 @@ import MapWrapper from "./options-form/map/MapWrapper";
 import UploadImage from "./options-form/UploadImage";
 import OptionList from "./OptionList";
 import InputOption from "./options-form/InputOption";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { memo, useMemo } from "react";
 import callApi from "@/services/callApi";
 import { useRouter } from "next/navigation";
+import {
+  clearCategoryPost,
+  setCategoryChild1,
+  setCategoryChild2,
+  setCategoryOption,
+} from "@/store/slice/create-post-slice/createPostSlice";
 
 const generateInitialValuesAndSchema = (
   options,
@@ -113,6 +119,7 @@ const PostForm = () => {
   const { address, lng, lat } = useSelector((state) => state.addressCreatePost);
   const categoryPost = useSelector((state) => state.createPost.categoryPost);
   const router = useRouter();
+  const dispatch = useDispatch();
   const { initialValues, validationSchema } = useMemo(() => {
     return generateInitialValuesAndSchema(
       options,
@@ -152,11 +159,24 @@ const PostForm = () => {
           router.push("/my-divar/my-posts");
         }
       } catch (error) {
-        console.error("Error creating post:", error);
+        console.error(error);
       }
     },
   });
-
+  const backHandler = () => {
+    dispatch(setCategoryChild1(null));
+    dispatch(setCategoryChild2(null));
+    dispatch(setCategoryOption(null));
+    dispatch(clearCategoryPost());
+    if (typeof window !== "undefined") {
+      const currentState = JSON.parse(localStorage.getItem("createPostState"));
+      currentState.child1 = null;
+      currentState.child2 = null;
+      currentState.option = null;
+      currentState.categoryPost = [];
+    }
+    router.push("/new");
+  };
   return (
     <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
       <List>
@@ -199,7 +219,12 @@ const PostForm = () => {
           />
         </div>
         <div className="flex justify-end">
-          <Button variant="outlined" color="error" className="!ml-4">
+          <Button
+            variant="outlined"
+            color="error"
+            className="!ml-4"
+            onClick={backHandler}
+          >
             انصراف آگهی
           </Button>
           <Button variant="contained" color="primary" type="submit">

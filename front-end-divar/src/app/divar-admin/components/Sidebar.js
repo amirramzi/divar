@@ -24,6 +24,7 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
+
   right: 0, // Add this line
 });
 
@@ -33,6 +34,7 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
+
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
@@ -45,6 +47,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
+
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
@@ -74,6 +77,7 @@ const Drawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),
@@ -98,7 +102,7 @@ export default function Sidebar({ children }) {
   };
 
   return (
-    <div className="flex h-screen ">
+    <div className="flex h-screen !overflow-y-hidden">
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -132,7 +136,7 @@ export default function Sidebar({ children }) {
         <Divider />
         <SidebarItem open={open} />
       </Drawer>
-      <div className="bg-black w-full h-fit min-h-screen">
+      <div className="bg-black w-full overflow-x-auto min-h-screen ">
         <Box component="div" sx={{ flexGrow: 1, p: 3 }}>
           <DrawerHeader />
           {children}

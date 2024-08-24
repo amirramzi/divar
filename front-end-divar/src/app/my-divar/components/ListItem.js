@@ -10,7 +10,7 @@ import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 
 import { v4 as uuidv4 } from "uuid";
 import Whoami from "@/app/components/shared/Whoami";
-import Logout from "@/app/components/shared/Logout";
+
 const ListItem = [
   {
     id: uuidv4(),
